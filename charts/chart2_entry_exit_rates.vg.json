@@ -1,0 +1,155 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 650,
+  "height": 350,
+  "title": {
+    "text": "Business Entry and Exit Rates in Australia",
+    "subtitle": "New businesses continued to outnumber exits from 2022–23 to 2025–26",
+    "anchor": "start",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "subtitlePadding": 8
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/abs_national_entry_exit_rates.csv"
+  },
+  "transform": [
+    {"fold": ["entry_rate", "exit_rate"], "as": ["rate_type", "rate"]},
+    {
+      "calculate": "datum.rate_type === 'entry_rate' ? 'Entry rate' : 'Exit rate'",
+      "as": "Rate type"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "line", "strokeWidth": 3},
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": ["2022-23", "2023-24", "2024-25", "2025-26"],
+          "title": "Financial year",
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "replace(datum.label, '-', '–')"
+          }
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative",
+          "title": "Rate (%)",
+          "scale": {"zero": true, "domain": [0, 20]},
+          "axis": {
+            "values": [0, 5, 10, 15, 20],
+            "labelExpr": "datum.value + '%'"
+          }
+        },
+        "color": {
+          "field": "Rate type",
+          "type": "nominal",
+          "title": null,
+          "scale": {
+            "domain": ["Entry rate", "Exit rate"],
+            "range": ["#2F6B9A", "#C95A49"]
+          },
+          "legend": {"orient": "top", "direction": "horizontal"}
+        },
+        "tooltip": [
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {"field": "Rate type", "type": "nominal", "title": "Measure"},
+          {
+            "field": "rate",
+            "type": "quantitative",
+            "title": "Rate (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {"type": "point", "filled": true, "size": 90},
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": ["2022-23", "2023-24", "2024-25", "2025-26"]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative",
+          "scale": {"zero": true, "domain": [0, 20]}
+        },
+        "color": {
+          "field": "Rate type",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Entry rate", "Exit rate"],
+            "range": ["#2F6B9A", "#C95A49"]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {"field": "Rate type", "type": "nominal", "title": "Measure"},
+          {
+            "field": "rate",
+            "type": "quantitative",
+            "title": "Rate (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.financial_year === '2025-26'"}],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 12,
+        "fontSize": 12,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": ["2022-23", "2023-24", "2024-25", "2025-26"]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative",
+          "scale": {"zero": true, "domain": [0, 20]}
+        },
+        "color": {
+          "field": "Rate type",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Entry rate", "Exit rate"],
+            "range": ["#2F6B9A", "#C95A49"]
+          },
+          "legend": null
+        },
+        "text": {"field": "rate", "type": "quantitative", "format": ".1f"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "gridColor": "#dddddd",
+      "gridOpacity": 0.5,
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titlePadding": 10
+    },
+    "legend": {"labelFontSize": 12}
+  }
+}
