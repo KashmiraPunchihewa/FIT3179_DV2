@@ -1,0 +1,136 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 650,
+  "height": 350,
+  "title": {
+    "text": "Australian Corporate Insolvencies",
+    "subtitle": "Companies entering external administration for the first time, 2021–22 to 2025–26",
+    "anchor": "start",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "subtitlePadding": 8
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_series1_annual.csv"
+  },
+  "layer": [
+    {
+      "mark": {"type": "line", "strokeWidth": 3},
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ],
+          "title": "Financial year",
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "replace(datum.label, '-', '–')"
+          }
+        },
+        "y": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "title": "Companies entering external administration",
+          "scale": {"zero": true, "domain": [0, 16000]},
+          "axis": {
+            "values": [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000],
+            "labelExpr": "format(datum.value, ',.0f')"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "title": "Insolvencies",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {"type": "point", "filled": true, "size": 90},
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ]
+        },
+        "y": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "scale": {"zero": true, "domain": [0, 16000]}
+        },
+        "tooltip": [
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "title": "Insolvencies",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.financial_year === '2024-2025'"}],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -12,
+        "fontWeight": "bold",
+        "fontSize": 13
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ]
+        },
+        "y": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "scale": {"zero": true, "domain": [0, 16000]}
+        },
+        "text": {"value": "Peak: 14,722"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "gridColor": "#dddddd",
+      "gridOpacity": 0.5,
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titlePadding": 10
+    }
+  }
+}
