@@ -1,0 +1,136 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 700,
+  "height": 520,
+  "title": {
+    "text": "Which Industries Have the Highest Business Exit Rates?",
+    "subtitle": "Business entry and exit rates across Australian industries in 2025–26",
+    "anchor": "start",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "subtitlePadding": 8
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/abs_industry_entry_exit_rates.csv"
+  },
+  "transform": [
+    {"filter": "datum.financial_year === '2025-26'"},
+    {"calculate": "toNumber(datum.entry_rate)", "as": "entry"},
+    {"calculate": "toNumber(datum.exit_rate)", "as": "exit"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rule", "strokeWidth": 3, "color": "#cfcfcf"},
+      "encoding": {
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "sort": {"field": "exit", "order": "descending"},
+          "title": null,
+          "axis": {"labelFontSize": 11, "labelLimit": 350, "labelPadding": 6}
+        },
+        "x": {
+          "field": "exit",
+          "type": "quantitative",
+          "title": "Business rate (%)",
+          "scale": {"domain": [0, 30], "zero": true},
+          "axis": {
+            "values": [0, 5, 10, 15, 20, 25, 30],
+            "labelExpr": "datum.value + '%'"
+          }
+        },
+        "x2": {"field": "entry"}
+      }
+    },
+    {
+      "transform": [
+        {"fold": ["entry", "exit"], "as": ["rate_type", "rate"]},
+        {
+          "calculate": "datum.rate_type === 'entry' ? 'Entry rate' : 'Exit rate'",
+          "as": "Rate type"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 115,
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "sort": {"field": "exit", "order": "descending"}
+        },
+        "x": {
+          "field": "rate",
+          "type": "quantitative",
+          "scale": {"domain": [0, 30], "zero": true}
+        },
+        "color": {
+          "field": "Rate type",
+          "type": "nominal",
+          "title": null,
+          "scale": {
+            "domain": ["Entry rate", "Exit rate"],
+            "range": ["#2F6B9A", "#C95A49"]
+          },
+          "legend": {
+            "orient": "top",
+            "direction": "horizontal",
+            "labelFontSize": 11
+          }
+        },
+        "tooltip": [
+          {"field": "industry", "type": "nominal", "title": "Industry"},
+          {"field": "Rate type", "type": "nominal", "title": "Measure"},
+          {
+            "field": "rate",
+            "type": "quantitative",
+            "title": "Rate (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.industry === 'Transport, Postal and Warehousing'"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#C95A49"
+      },
+      "encoding": {
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "sort": {"field": "exit", "order": "descending"}
+        },
+        "x": {
+          "field": "exit",
+          "type": "quantitative",
+          "scale": {"domain": [0, 30]}
+        },
+        "text": {"value": "21.7% exit"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "domain": false,
+      "tickSize": 0,
+      "gridColor": "#e5e5e5",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titlePadding": 10
+    },
+    "legend": {"symbolType": "circle", "symbolSize": 100}
+  }
+}
