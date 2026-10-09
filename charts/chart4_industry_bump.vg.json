@@ -1,0 +1,203 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 690,
+  "height": 430,
+  "title": {
+    "text": "How Have the Most Affected Industries Changed Rank?",
+    "subtitle": "Annual ranking by number of companies entering external administration",
+    "anchor": "start",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "subtitlePadding": 8
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_series1_industry_year.csv"
+  },
+  "transform": [
+    {"filter": "datum.industry !== 'Unknown'"},
+    {"calculate": "toNumber(datum.insolvencies)", "as": "insolvencies_num"},
+    {
+      "window": [{"op": "rank", "as": "annual_rank"}],
+      "sort": [{"field": "insolvencies_num", "order": "descending"}],
+      "groupby": ["financial_year"]
+    },
+    {
+      "filter": {
+        "field": "industry",
+        "oneOf": [
+          "Construction",
+          "Accommodation and Food Services",
+          "Other Services",
+          "Retail Trade",
+          "Professional, Scientific and Technical Services",
+          "Administrative and Support Services",
+          "Transport, Postal and Warehousing",
+          "Manufacturing"
+        ]
+      }
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "line", "strokeWidth": 3},
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ],
+          "title": "Financial year",
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "replace(datum.label, '-', '–')",
+            "labelFontSize": 12,
+            "titleFontSize": 13,
+            "titlePadding": 10
+          }
+        },
+        "y": {
+          "field": "annual_rank",
+          "type": "quantitative",
+          "title": "Industry rank",
+          "scale": {"reverse": true, "domain": [1, 9]},
+          "axis": {
+            "values": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            "labelExpr": "'#' + datum.value",
+            "grid": true,
+            "gridColor": "#e5e5e5"
+          }
+        },
+        "color": {
+          "field": "industry",
+          "type": "nominal",
+          "title": null,
+          "scale": {"scheme": "tableau10"},
+          "legend": null
+        },
+        "detail": {"field": "industry"},
+        "tooltip": [
+          {"field": "industry", "type": "nominal", "title": "Industry"},
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {
+            "field": "annual_rank",
+            "type": "quantitative",
+            "title": "Rank",
+            "format": ".0f"
+          },
+          {
+            "field": "insolvencies_num",
+            "type": "quantitative",
+            "title": "Formal insolvencies",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 100,
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ]
+        },
+        "y": {
+          "field": "annual_rank",
+          "type": "quantitative",
+          "scale": {"reverse": true, "domain": [1, 9]}
+        },
+        "color": {
+          "field": "industry",
+          "type": "nominal",
+          "scale": {"scheme": "tableau10"},
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "industry", "type": "nominal", "title": "Industry"},
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {
+            "field": "annual_rank",
+            "type": "quantitative",
+            "title": "Rank",
+            "format": ".0f"
+          },
+          {
+            "field": "insolvencies_num",
+            "type": "quantitative",
+            "title": "Formal insolvencies",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.financial_year === '2025-2026'"}],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ]
+        },
+        "y": {
+          "field": "annual_rank",
+          "type": "quantitative",
+          "scale": {"reverse": true, "domain": [1, 9]}
+        },
+        "text": {"field": "industry", "type": "nominal"},
+        "color": {
+          "field": "industry",
+          "type": "nominal",
+          "scale": {"scheme": "tableau10"},
+          "legend": null
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "domain": false,
+      "tickSize": 0,
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}
