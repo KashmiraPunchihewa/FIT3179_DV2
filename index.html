@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Australian Business Under Pressure</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="hero">
+
+      <p class="eyebrow">
+        Business Closures & Insolvencies in Australia
+      </p>
+
+      <h1>
+        Australian Business Under Pressure
+      </h1>
+
+      <p class="hero-description">
+        Formal corporate insolvencies have risen sharply in Australia.
+        But the pressure is not distributed evenly. This visualisation
+        explores when insolvencies increased, which industries were most
+        affected, and how broader business entry and exit patterns compare.
+      </p>
+
+    </header>
+
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <p class="section-number">01 — The national picture</p>
+
+        <h2>
+          Formal insolvencies rose dramatically
+        </h2>
+
+        <p>
+          We begin with companies entering external administration for the
+          first time under ASIC Series 1 statistics.
+        </p>
+
+      </div>
+
+      <div class="definition-box">
+        <strong>Important distinction:</strong>
+        a formal corporate insolvency is not the same as a business exit.
+        Businesses can leave the market for many reasons, while ASIC
+        insolvency statistics capture companies entering formal external
+        administration.
+      </div>
+
+      <div class="chart-card">
+        <div id="chart1" class="chart"></div>
+
+        <p class="chart-note">
+          Formal insolvencies climbed from 4,912 in 2021–22 to a peak of
+          14,722 in 2024–25 before easing slightly in 2025–26.
+        </p>
+      </div>
+
+
+      <div class="chart-card">
+        <div id="chart2" class="chart"></div>
+
+        <p class="chart-note">
+          ABS business-entry rates remained above exit rates during this
+          period, showing that overall business churn tells a different
+          story from formal corporate insolvency.
+        </p>
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <p class="section-number">02 — Industry pressure</p>
+
+        <h2>
+          The increase was concentrated in particular industries
+        </h2>
+
+        <p>
+          Looking beneath the national total reveals large differences
+          between industries.
+        </p>
+
+      </div>
+
+
+      <div class="chart-card">
+        <div id="chart3" class="chart"></div>
+
+        <p class="chart-note">
+          Construction recorded the greatest formal insolvency burden,
+          followed by Accommodation and Food Services.
+        </p>
+      </div>
+
+
+      <div class="chart-card">
+        <div id="chart4" class="chart"></div>
+
+        <p class="chart-note">
+          The top three industries remained remarkably stable, while
+          several middle-ranked industries moved noticeably over time.
+        </p>
+      </div>
+
+
+      <div class="chart-card">
+        <div id="chart5" class="chart"></div>
+
+        <p class="chart-note">
+          Construction contributed the largest individual increase between
+          2022–23 and 2025–26, with Accommodation and Food Services also
+          adding substantially to the rise.
+        </p>
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <p class="section-number">03 — Business turnover</p>
+
+        <h2>
+          High exit rates do not always mean the most insolvencies
+        </h2>
+
+        <p>
+          ABS business entry and exit statistics provide a broader view of
+          business turnover across industries.
+        </p>
+
+      </div>
+
+
+      <div class="chart-card">
+        <div id="chart6" class="chart"></div>
+
+        <p class="chart-note">
+          Transport, Postal and Warehousing recorded the highest business
+          exit rate in 2025–26, illustrating why business exits and formal
+          insolvencies should not be treated as the same measure.
+        </p>
+      </div>
+
+    </section>
+
+
+    <footer class="sources">
+
+      <h2>Sources</h2>
+
+      <p>
+        Australian Securities and Investments Commission (ASIC),
+        Insolvency Statistics — Series 1.
+      </p>
+
+      <p>
+        Australian Bureau of Statistics (ABS),
+        Counts of Australian Businesses, including Entries and Exits.
+      </p>
+
+      <p>
+        Draft prepared for FIT3179 Data Visualisation 2 critique.
+      </p>
+
+    </footer>
+
+  </main>
+
+  <script src="js/vega_lite_vis.js"></script>
+
+</body>
+
+</html>
