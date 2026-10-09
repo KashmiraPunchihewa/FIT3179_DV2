@@ -1,0 +1,146 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 720,
+  "height": 520,
+  "title": {
+    "text": "Which Industries Recorded the Most Formal Insolvencies?",
+    "subtitle": "Construction consistently recorded the highest number of companies entering external administration",
+    "anchor": "start",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "subtitlePadding": 8
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_series1_industry_year.csv"
+  },
+  "transform": [
+    {"filter": "datum.industry !== 'Unknown'"},
+    {
+      "joinaggregate": [
+        {"op": "sum", "field": "insolvencies", "as": "industry_total"}
+      ],
+      "groupby": ["industry"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1},
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ],
+          "title": "Financial year",
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "replace(datum.label, '-', '–')",
+            "labelFontSize": 12,
+            "titleFontSize": 13,
+            "titlePadding": 10
+          }
+        },
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "title": null,
+          "sort": {
+            "field": "industry_total",
+            "op": "max",
+            "order": "descending"
+          },
+          "axis": {"labelFontSize": 11, "labelLimit": 360, "labelPadding": 6}
+        },
+        "color": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "title": "Formal insolvencies",
+          "scale": {
+            "type": "threshold",
+            "domain": [250, 500, 1000, 1500, 2500],
+            "range": [
+              "#deebf7",
+              "#c6dbef",
+              "#9ecae1",
+              "#6baed6",
+              "#3182bd",
+              "#08519c"
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 6,
+            "titleFontSize": 12,
+            "labelFontSize": 11,
+            "titlePadding": 8
+          }
+        },
+        "tooltip": [
+          {"field": "industry", "type": "nominal", "title": "Industry"},
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "title": "Formal insolvencies",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.financial_year === '2025-2026' && datum.insolvencies >= 1500"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "white"
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026"
+          ]
+        },
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "sort": {
+            "field": "industry_total",
+            "op": "max",
+            "order": "descending"
+          }
+        },
+        "text": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "format": ",.0f"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {"domain": false, "tickSize": 0},
+    "legend": {"labelLimit": 160}
+  }
+}
