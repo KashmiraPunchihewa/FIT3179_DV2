@@ -137,3 +137,14 @@ h2 {
     padding: 14px;
   }
 }
+
+.chart {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.vega-embed {
+  margin: 0 auto;
+}
