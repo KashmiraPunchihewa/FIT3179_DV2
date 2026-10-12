@@ -33,7 +33,9 @@
           "title": null,
           "axis": {
             "labelFontSize": 12,
-            "labelLimit": 220
+            "labelLimit": 220,
+            "ticks": false,
+            "domain": false
           }
         },
 
@@ -41,10 +43,17 @@
           "field": "insolvencies",
           "type": "quantitative",
           "title": "Formal insolvencies",
+          "scale": {
+            "domain": [0, 5600]
+          },
           "axis": {
+            "values": [0, 1000, 2000, 3000, 4000, 5000],
             "format": ",.0f",
+            "labelFontSize": 11,
+            "titleFontSize": 12,
             "grid": true,
-            "gridOpacity": 0.25
+            "gridOpacity": 0.2,
+            "tickSize": 4
           }
         },
 
@@ -84,7 +93,10 @@
 
         "x": {
           "field": "insolvencies",
-          "type": "quantitative"
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 5600]
+          }
         },
 
         "text": {
@@ -105,8 +117,7 @@
 
     "axis": {
       "labelFont": "Arial",
-      "titleFont": "Arial",
-      "titleFontSize": 12
+      "titleFont": "Arial"
     },
 
     "title": {
