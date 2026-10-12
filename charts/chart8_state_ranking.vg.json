@@ -1,0 +1,117 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
+  "width": 760,
+  "height": 360,
+
+  "title": {
+    "text": "New South Wales Recorded the Highest Formal Insolvency Total",
+    "subtitle": "Companies entering external administration for the first time, 2025–26",
+    "fontSize": 20,
+    "subtitleFontSize": 13,
+    "anchor": "start",
+    "offset": 12
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_state_insolvencies_2025_26.csv"
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#377eb8",
+        "cornerRadiusEnd": 3
+      },
+
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "sort": "-x",
+          "title": null,
+          "axis": {
+            "labelFontSize": 12,
+            "labelLimit": 220
+          }
+        },
+
+        "x": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "title": "Formal insolvencies",
+          "axis": {
+            "format": ",.0f",
+            "grid": true,
+            "gridOpacity": 0.25
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State / Territory"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "title": "Formal insolvencies",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 6,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#374151"
+      },
+
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "sort": "-x"
+        },
+
+        "x": {
+          "field": "insolvencies",
+          "type": "quantitative"
+        },
+
+        "text": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "format": ",.0f"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white",
+
+    "view": {
+      "stroke": null
+    },
+
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial",
+      "titleFontSize": 12
+    },
+
+    "title": {
+      "font": "Arial",
+      "subtitleFont": "Arial"
+    }
+  }
+}
