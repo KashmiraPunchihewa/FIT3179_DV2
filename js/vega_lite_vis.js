@@ -15,3 +15,8 @@ vegaEmbed("#chart5", vg_5, { actions: false }).catch(console.error);
 
 var vg_6 = "charts/chart6_industry_entry_exit_connected_dot.vg.json";
 vegaEmbed("#chart6", vg_6, { actions: false }).catch(console.error);
+
+var vg_7 = "charts/chart7_state_symbols.vg.json";
+
+vegaEmbed("#chart7", vg_7, { actions: false })
+  .catch(console.error);
