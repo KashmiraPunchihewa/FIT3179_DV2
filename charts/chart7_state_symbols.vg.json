@@ -1,11 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
   "width": 760,
   "height": 520,
 
   "title": {
-    "text": "Where Were Formal Insolvencies Concentrated in 2025–26?",
-    "subtitle": "Companies entering external administration for the first time",
+    "text": "Where Did the Most Formal Insolvencies Occur in 2025–26?",
+    "subtitle": "Circle area represents companies entering external administration for the first time",
     "fontSize": 20,
     "subtitleFontSize": 13,
     "anchor": "start",
@@ -13,9 +14,9 @@
   },
 
   "projection": {
-    "type": "mercator",
-    "center": [134, -28],
-    "scale": 850
+  "type": "mercator",
+  "center": [134, -28],
+  "scale": 850
   },
 
   "layer": [
@@ -30,23 +31,9 @@
 
       "mark": {
         "type": "geoshape",
-        "fill": "#f1f3f5",
-        "stroke": "#9aa4af",
-        "strokeWidth": 1.2
-      },
-
-      "encoding": {
-        "shape": {
-          "field": "geometry",
-          "type": "geojson"
-        },
-        "tooltip": [
-          {
-            "field": "properties.state_name_2021",
-            "type": "nominal",
-            "title": "State / Territory"
-          }
-        ]
+        "filled": false,
+        "stroke": "#8795a1",
+        "strokeWidth": 1.3
       }
     },
 
@@ -85,7 +72,7 @@
           },
           "legend": {
             "values": [100, 1000, 2500, 5000],
-            "format": ","
+            "format": ",.0f"
           }
         },
 
@@ -99,7 +86,7 @@
             "field": "insolvencies",
             "type": "quantitative",
             "title": "Formal insolvencies",
-            "format": ","
+            "format": ",.0f"
           }
         ]
       }
