@@ -1,9 +1,9 @@
-state,insolvencies
-New South Wales,5367
-Victoria,4100
-Queensland,2706
-South Australia,652
-Western Australia,830
-Tasmania,145
-Northern Territory,97
-Australian Capital Territory,256
+state,insolvencies,longitude,latitude
+New South Wales,5367,147.0,-32.5
+Victoria,4100,144.5,-37.1
+Queensland,2706,145.0,-22.0
+South Australia,652,135.0,-30.0
+Western Australia,830,121.0,-25.5
+Tasmania,145,146.5,-42.0
+Northern Territory,97,133.0,-19.0
+Australian Capital Territory,256,149.13,-35.28
