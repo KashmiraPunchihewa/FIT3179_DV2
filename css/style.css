@@ -816,3 +816,336 @@ body {
   }
 
 }
+
+/* ==========================================================
+   COMPACT DATA-STORY OVERRIDES
+   Makes the page feel more like a visualisation than a website
+   ========================================================== */
+
+
+/* ---------- HERO ---------- */
+
+.hero {
+  padding: 54px 32px 42px;
+
+  background:
+    linear-gradient(
+      115deg,
+      #172033 0%,
+      #172033 72%,
+      #27232f 100%
+    );
+}
+
+
+/* Remove large decorative circle */
+.hero::after {
+  display: none;
+}
+
+
+.hero-eyebrow {
+  margin-bottom: 14px;
+
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+}
+
+
+/* Much smaller title */
+.hero h1 {
+  max-width: 920px;
+
+  font-size: clamp(3rem, 5vw, 4.6rem);
+  line-height: 0.98;
+
+  letter-spacing: -0.05em;
+}
+
+
+/* Keep accent but don't let it dominate */
+.hero h1 span {
+  display: inline;
+  margin-left: 0.12em;
+
+  color: #e7795c;
+}
+
+
+.hero-description {
+  max-width: 800px;
+
+  margin-top: 22px;
+
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+
+/* ---------- HERO STATS ---------- */
+
+/*
+  Turn the three statistics into an annotation strip
+  instead of website cards.
+*/
+
+.hero-stats {
+  width: 100%;
+  max-width: 900px;
+
+  margin-top: 30px;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 0;
+
+  background: transparent;
+
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+
+  border-radius: 0;
+}
+
+
+.hero-stat {
+  min-height: auto;
+
+  padding: 17px 26px 17px 0;
+
+  background: transparent;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+
+.hero-stat + .hero-stat {
+  padding-left: 26px;
+}
+
+
+.hero-stat:last-child {
+  border-right: 0;
+}
+
+
+.stat-value {
+  font-size: 1.75rem;
+}
+
+
+.stat-word {
+  font-size: 1.25rem;
+}
+
+
+.stat-label {
+  margin-top: 5px;
+
+  font-size: 0.8rem;
+}
+
+
+.stat-label span {
+  font-size: 0.72rem;
+}
+
+
+/* ---------- SECTIONS ---------- */
+
+/* Less giant empty space between chapters */
+.section {
+  padding: 72px 32px;
+}
+
+
+.section-heading {
+  margin-bottom: 38px;
+}
+
+
+.section-kicker {
+  margin-bottom: 11px;
+}
+
+
+.section-index {
+  font-size: 1.45rem;
+}
+
+
+.section-name {
+  font-size: 0.72rem;
+}
+
+
+/* Reduce oversized website-style section headings */
+.section-heading h2 {
+  max-width: 850px;
+
+  font-size: clamp(2.2rem, 3.5vw, 3.15rem);
+  line-height: 1.08;
+}
+
+
+.section-heading > p {
+  margin-top: 15px;
+
+  max-width: 760px;
+
+  font-size: 0.96rem;
+}
+
+
+/* ---------- CHART CONTAINERS ---------- */
+
+/*
+  Make charts feel like the main visual object,
+  rather than cards in a web dashboard.
+*/
+
+.chart-card {
+  margin-bottom: 42px;
+
+  padding: 26px 28px 24px;
+
+  border-radius: 7px;
+
+  border: 1px solid rgba(23, 32, 51, 0.08);
+
+  box-shadow:
+    0 3px 14px rgba(23, 32, 51, 0.035);
+}
+
+
+/* Smaller top accent */
+.feature-chart,
+.map-card,
+.section-turnover .chart-card {
+  border-top-width: 3px;
+}
+
+
+.chart-note {
+  margin-top: 18px;
+
+  font-size: 0.88rem;
+}
+
+
+/* ---------- CALLOUT ---------- */
+
+.definition-box {
+  max-width: 900px;
+
+  margin: 44px auto;
+
+  padding: 25px 30px;
+
+  grid-template-columns: 62px 1fr;
+
+  gap: 22px;
+
+  border-radius: 8px;
+}
+
+
+.definition-symbol {
+  width: 54px;
+  height: 54px;
+
+  font-size: 1.75rem;
+}
+
+
+.definition-title {
+  font-size: 1.08rem;
+}
+
+
+.definition-box p:last-child {
+  font-size: 0.88rem;
+}
+
+
+/* ---------- TRANSITIONS ---------- */
+
+.chart-transition {
+  margin: 40px auto;
+
+  font-size: 0.94rem;
+}
+
+
+.insight-callout {
+  margin-bottom: 38px;
+
+  padding: 19px 22px;
+}
+
+
+.insight-callout p {
+  font-size: 0.98rem;
+}
+
+
+.story-bridge {
+  margin: 45px auto;
+}
+
+
+/* ---------- SOURCES ---------- */
+
+.sources {
+  padding: 52px 32px;
+}
+
+
+.sources h2 {
+  font-size: 1.8rem;
+}
+
+
+.source-list {
+  margin-top: 27px;
+  padding: 26px 0;
+
+  gap: 32px;
+}
+
+
+.footer-bottom {
+  margin-top: 26px;
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+
+  .hero {
+    padding: 46px 24px 38px;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-stat,
+  .hero-stat + .hero-stat {
+    padding: 14px 0;
+
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .hero-stat:last-child {
+    border-bottom: 0;
+  }
+
+  .section {
+    padding: 58px 24px;
+  }
+}
