@@ -20,3 +20,8 @@ var vg_7 = "charts/chart7_state_symbols.vg.json";
 
 vegaEmbed("#chart7", vg_7, { actions: false })
   .catch(console.error);
+
+var vg_8 = "charts/chart8_state_ranking.vg.json";
+
+vegaEmbed("#chart8", vg_8, { actions: false })
+  .catch(console.error);
