@@ -69,7 +69,7 @@
           <div class="hero-stat">
             <p class="stat-value stat-word">Construction</p>
             <p class="stat-label">
-              Most affected industry
+              Largest industry count
               <span>formal insolvencies</span>
             </p>
           </div>
@@ -81,8 +81,8 @@
     </header>
 
 
-    <!-- SECTION 01 -->
-    <section class="section section-national">
+    <nav class="section-nav" aria-label="Page sections"><a href="#national">National picture</a><a href="#industry">Industry</a><a href="#turnover">Business turnover</a><a href="#geography">Geography</a></nav><!-- SECTION 01 -->
+    <section id="national" class="section section-national">
 
       <div class="section-inner">
 
@@ -98,20 +98,17 @@
           </h2>
 
           <p>
-            We begin with companies entering external administration for the
-            first time under ASIC Series 1 statistics.
+            We begin with companies entering external administration or having a controller appointed
+            for the first time under ASIC Series 1 statistics.
           </p>
 
         </div>
 
 
         <div class="chart-card feature-chart">
-          <div id="chart1" class="chart"></div>
+          <p class="chart-number">CHART 01</p><h3>The annual rise, and the months behind it</h3><p class="chart-subtitle">ASIC Series 1 · annual totals for 2021–22 to 2025–26</p><div class="chart-controls"><label for="trend-view">Time detail</label><select id="trend-view"><option value="annual">Annual overview</option><option value="monthly">Monthly detail · Jul 2019–Aug 2026</option></select></div><p id="trend-context" class="chart-help">Five complete financial years. Select monthly detail to inspect shorter fluctuations.</p><div id="chart1" class="chart" aria-label="The annual rise, and the months behind it"></div>
 
-          <p class="chart-note">
-            Formal insolvencies climbed from 4,912 in 2021–22 to a peak of
-            14,722 in 2024–25 before easing slightly in 2025–26.
-          </p>
+          <p class="chart-note">Insolvencies nearly tripled between 2021–22 and 2024–25, then fell 3.9% in 2025–26. The monthly view covers July 2019 to August 2026; July–August 2026 are provisional. Monthly counts are not seasonally adjusted, so individual spikes do not establish a seasonal pattern.</p>
         </div>
 
 
@@ -125,8 +122,7 @@
             </p>
 
             <p>
-              ASIC statistics measure companies entering formal external
-              administration. ABS business exits capture a much broader range
+              ASIC Series 1 counts the first external administration or controller appointment for a company. ABS business exits capture a much broader range
               of reasons why businesses leave the market.
             </p>
           </div>
@@ -142,13 +138,9 @@
 
 
         <div class="chart-card">
-          <div id="chart2" class="chart"></div>
+          <p class="chart-number">CHART 02</p><h3>Business entries stayed ahead of exits</h3><p class="chart-subtitle">ABS · entry and exit rates, 2022–23 to 2025–26</p><div id="chart2" class="chart" aria-label="Business entries stayed ahead of exits"></div>
 
-          <p class="chart-note">
-            ABS business-entry rates remained above exit rates during this
-            period, showing that overall business churn tells a different
-            story from formal corporate insolvency.
-          </p>
+          <p class="chart-note">In 2025–26, 460,461 businesses entered and 375,331 exited: a net gain of 85,130. The published entry and exit rates differ by 3.1 percentage points. Both use businesses operating at the start of the year as their denominator.</p>
         </div>
 
       </div>
@@ -157,7 +149,7 @@
 
 
     <!-- SECTION 02 -->
-    <section class="section section-industry">
+    <section id="industry" class="section section-industry">
 
       <div class="section-inner">
 
@@ -183,40 +175,29 @@
         <div class="insight-callout">
           <span class="insight-label">Key finding</span>
           <p>
-            Construction consistently carried the largest formal insolvency
-            burden, with Accommodation and Food Services also heavily affected.
+            Construction consistently recorded the largest number of formal insolvencies, followed by Accommodation and Food Services. These totals do not measure an individual business’s risk.
           </p>
         </div>
 
 
         <div class="chart-card">
-          <div id="chart3" class="chart"></div>
+          <p class="chart-number">CHART 03</p><h3>Which industries recorded the most insolvencies?</h3><p class="chart-subtitle">Counts, not risk · ranked by 2025–26 totals</p><div id="chart3" class="chart" aria-label="Which industries recorded the most insolvencies?"></div>
 
-          <p class="chart-note">
-            Construction recorded the greatest formal insolvency burden,
-            followed by Accommodation and Food Services.
-          </p>
+          <p class="chart-note">The default view shows the ten largest industries by 2025–26 insolvency counts; select “All industries” for all 19 named industries. Every cell uses the same colour scale and shows its exact count. Unknown industry is excluded here (36 companies in 2025–26), but included in the national total and waterfall. Counts show volume, not the likelihood of failure.</p>
         </div>
 
 
         <div class="chart-card">
-          <div id="chart4" class="chart"></div>
+          <p class="chart-number">CHART 04</p><h3>Which industries moved up the ranking?</h3><p class="chart-subtitle">Every industry reaching the top eight in any year · ranked against all 19 named industries</p><div id="chart4" class="chart" aria-label="Which industries moved up the ranking?"></div>
 
-          <p class="chart-note">
-            The top three industries remained remarkably stable, while
-            several middle-ranked industries moved noticeably over time.
-          </p>
+          <p class="chart-note">A line follows the same industry through all five years, even after it drops below eighth place. Rank 1 is the highest count; ranks are calculated across all 19 named industries before selecting the displayed group. Construction is highlighted in blue by default; other industries provide grey context. Choose an industry to follow its complete path, or select All for an overview. Equal counts share a rank.</p>
         </div>
 
 
         <div class="chart-card">
-          <div id="chart5" class="chart"></div>
+          <p class="chart-number">CHART 05</p><h3>How industry changes add up to the national rise</h3><p class="chart-subtitle">7,942 in 2022–23 + 6,211 additional insolvencies = 14,153 in 2025–26</p><div id="chart5" class="chart" aria-label="How industry changes add up to the national rise"></div>
 
-          <p class="chart-note">
-            Construction contributed the largest individual increase between
-            2022–23 and 2025–26, with Accommodation and Food Services also
-            adding substantially to the rise.
-          </p>
+          <p class="chart-note">Each floating bar adds one industry’s change to the running national total. Dark bars show the starting and ending totals; blue bars show increases. “All remaining industries” includes every omitted industry and Unknown, so the bridge accounts for the full increase of 6,211 (78.2%). Construction contributes 1,259, or 20.3% of that increase.</p>
         </div>
 
       </div>
@@ -225,7 +206,7 @@
 
 
     <!-- SECTION 03 -->
-    <section class="section section-turnover">
+    <section id="turnover" class="section section-turnover">
 
       <div class="section-inner">
 
@@ -249,13 +230,9 @@
 
 
         <div class="chart-card">
-          <div id="chart6" class="chart"></div>
+          <p class="chart-number">CHART 06</p><h3>Business turnover tells a different story</h3><p class="chart-subtitle">ABS · industry entry and exit rates in 2025–26</p><div id="chart6" class="chart" aria-label="Business turnover tells a different story"></div>
 
-          <p class="chart-note">
-            Transport, Postal and Warehousing recorded the highest business
-            exit rate in 2025–26, illustrating why business exits and formal
-            insolvencies should not be treated as the same measure.
-          </p>
+          <p class="chart-note">Transport, Postal and Warehousing had the highest exit rate at 21.7%, alongside a 26.5% entry rate. Circles show entries and crosses show exits, including when rates overlap. ABS exits include businesses leaving for many reasons; they are not equivalent to ASIC corporate insolvencies.</p>
         </div>
 
       </div>
@@ -264,7 +241,7 @@
 
 
     <!-- SECTION 04 -->
-    <section class="section section-geography">
+    <section id="geography" class="section section-geography">
 
       <div class="section-inner">
 
@@ -276,58 +253,31 @@
           </div>
 
           <h2>
-            Where did the most formal insolvencies occur?
+            Location changes the comparison
           </h2>
 
           <p>
             The national total also hides substantial geographic differences.
-            Looking across states and territories reveals where the largest
-            absolute numbers of formal insolvencies were recorded in 2025–26.
+            Compare insolvencies relative to the business population, then examine the absolute totals below.
           </p>
 
         </div>
 
 
         <div class="chart-card map-card">
-          <div id="chart7" class="chart"></div>
+          <p class="chart-number">CHART 07</p><h3>Where were insolvencies higher relative to business numbers?</h3><p class="chart-subtitle">2025–26 · insolvencies per 10,000 active businesses at the start of the year</p><div id="chart7" class="chart" aria-label="Where were insolvencies higher relative to business numbers?"></div>
 
-          <div class="map-explanation">
-
-            <p class="chart-note">
-              <strong>New South Wales recorded the largest total,</strong>
-              followed by Victoria and Queensland.
-            </p>
-
-            <p class="chart-note">
-              Circle area represents absolute formal insolvency totals.
-              State and territory boundaries provide geographic context;
-              the map does not represent insolvency rates.
-            </p>
-
-          </div>
+          <div class="map-explanation"><p class="chart-note"><strong>The ACT has the highest ratio (69.2 per 10,000), while NSW has the largest total.</strong> This comparison divides ASIC insolvencies by ABS active businesses at 1 July 2025. ABS includes sole traders, partnerships and other businesses as well as companies; this is a measure relative to business numbers, <strong>not a company failure probability</strong>. The agencies also use different geographic allocation methods.</p><details><summary>Read the map values, including the ACT</summary><table><caption>2025–26 insolvencies per 10,000 businesses</caption><thead><tr><th scope="col">State / territory</th><th scope="col">Ratio</th></tr></thead><tbody><tr><th scope="row">ACT</th><td>69.2</td></tr><tr><th scope="row">NSW</th><td>58.6</td></tr><tr><th scope="row">NT</th><td>57.7</td></tr><tr><th scope="row">Victoria</th><td>54.3</td></tr><tr><th scope="row">Queensland</th><td>51.6</td></tr><tr><th scope="row">South Australia</th><td>38.6</td></tr><tr><th scope="row">Tasmania</th><td>32.8</td></tr><tr><th scope="row">Western Australia</th><td>31.2</td></tr></tbody></table></details></div>
         </div>
 
 
-        <div class="story-bridge">
-          <span></span>
-          <p>
-            The map shows <strong>where</strong> the pressure sits.
-            Ranking the same totals shows <strong>how large</strong>
-            the differences actually are.
-          </p>
-          <span></span>
-        </div>
+        <div class="story-bridge"><span></span><p>A larger business population can produce more insolvencies. The map compares <strong>relative intensity</strong>; the bars show <strong>absolute numbers</strong>.</p><span></span></div>
 
 
         <div class="chart-card">
-          <div id="chart8" class="chart"></div>
+          <p class="chart-number">CHART 08</p><h3>NSW recorded the largest number of insolvencies</h3><p class="chart-subtitle">ASIC Series 1 · absolute totals, 2025–26</p><div id="chart8" class="chart" aria-label="NSW recorded the largest number of insolvencies"></div>
 
-          <p class="chart-note">
-            New South Wales recorded the highest formal insolvency total in
-            2025–26, followed by Victoria and Queensland. The ranked bars make
-            differences between states and territories easier to compare
-            precisely.
-          </p>
+          <p class="chart-note">NSW accounts for 37.9% of the national total; NSW, Victoria and Queensland together account for 86.0%. These bars compare absolute volumes, while the map above adjusts for the size of each state or territory’s business population.</p>
         </div>
 
       </div>
@@ -349,18 +299,17 @@
 
           <p>
             <strong>ASIC</strong><br>
-            Insolvency Statistics — Series 1.
+            <a href="https://download.asic.gov.au/media/sm0la5s1/asic-insolvency-statistics-series-1-and-series-2-published-12-october-2026.xlsx">Insolvency statistics — Series 1 and 2, 12 October 2026 release</a>. Tables 1, 1.2 and 1.3. Series 1 only. Full financial years through June 2026; monthly detail through August 2026. <a href="https://www.asic.gov.au/about-asic/corporate-publications/statistics/insolvency-statistics/how-to-interpret-asics-corporate-insolvency-statistics">Definitions and limitations</a>.
           </p>
 
           <p>
             <strong>Australian Bureau of Statistics</strong><br>
-            Counts of Australian Businesses, including Entries and Exits.
+            <a href="https://www.abs.gov.au/statistics/economy/business-indicators/counts-australian-businesses-including-entries-and-exits/jul2022-jun2026">Counts of Australian Businesses, including Entries and Exits, July 2022–June 2026</a>. Released 18 August 2026. Data cube 1, Tables 1 and 4. Rates are the published rounded values.
           </p>
 
           <p>
             <strong>Australian Bureau of Statistics</strong><br>
-            Australian Statistical Geography Standard (ASGS),
-            State and Territory digital boundaries.
+            <a href="https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files">ASGS Edition 3, State and Territory digital boundaries</a>. Boundaries downloaded directly from the <a href="https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/digital-boundary-files/STE_2021_AUST_SHP_GDA2020.zip">ABS 2021 States and Territories shapefile (GDA2020)</a>, simplified with Mapshaper and converted to TopoJSON. Eight states and territories are shown.
           </p>
 
         </div>
@@ -370,7 +319,7 @@
 
           <p>
             <strong>Kashmira Punchihewa</strong><br>
-            FIT3179 Data Visualisation 2 · 2026
+            FIT3179 Data Visualisation 2 · Updated 17 October 2026<br>AI assistance: OpenAI Codex was used to review source data, revise chart code and improve explanatory text.
           </p>
 
         </div>
@@ -382,7 +331,7 @@
   </main>
 
 
-  <script src="js/vega_lite_vis.js"></script>
+  <noscript><p>Please enable JavaScript to view the interactive charts.</p></noscript><script src="js/vega_lite_vis.js?v=20261017-4"></script>
 
 </body>
 
