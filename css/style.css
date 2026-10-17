@@ -780,3 +780,36 @@ body {
   }
 
 }
+
+/* Tutor feedback revision: readable charts within the existing editorial layout. */
+.section-nav { display:flex; flex-wrap:wrap; justify-content:center; gap:12px 30px; padding:18px 24px; background:white; border-bottom:1px solid var(--line); }
+.section-nav a { color:var(--ink); text-decoration:none; font-size:.85rem; font-weight:600; }
+.section-nav a:hover { text-decoration:underline; }
+.chart-card h3 { margin:0; font-family:Manrope, sans-serif; font-size:1.35rem; line-height:1.35; }
+.chart-number { margin:0 0 8px; color:var(--insolvency-dark); font-size:.68rem; letter-spacing:.12em; font-weight:700; }
+.chart-subtitle { margin:8px 0 18px; color:var(--ink-soft); font-size:.84rem; line-height:1.5; }
+.chart { display:block; overflow:visible; min-width:0; }
+.chart .vega-embed { display:block; width:100%; padding:0; }
+.chart svg { display:block; max-width:100%; }
+.chart-controls, .vega-bindings { margin:12px 0; font-size:.82rem; }
+.chart-controls label { margin-right:12px; }
+select { max-width:100%; padding:7px 10px; border:1px solid #b8c2cc; border-radius:4px; color:var(--ink); background:white; font:inherit; }
+.vega-bind { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.chart-help { font-size:.8rem; color:var(--ink-soft); margin:10px 0 16px; }
+.sources a { color:#b5dce8; text-underline-offset:3px; }
+details { margin-top:16px; font-size:.85rem; }
+summary { cursor:pointer; font-weight:600; }
+table { border-collapse:collapse; width:100%; margin-top:12px; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--line); }
+caption { text-align:left; margin-bottom:8px; }
+:focus-visible { outline:3px solid #287d9a; outline-offset:3px; }
+@media(max-width:640px) {
+  .hero-stats { grid-template-columns:1fr; }
+  .hero-stat, .hero-stat:first-child { padding:13px 0; border-right:0; }
+  .hero-stat + .hero-stat { border-top:1px solid #ffffff25; }
+  .section { padding:38px 12px; }
+  .chart-card { padding:18px 10px; }
+  .chart-card h3 { font-size:1.15rem; }
+  .section-nav { justify-content:flex-start; }
+}
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
