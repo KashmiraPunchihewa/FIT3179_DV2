@@ -1,39 +1,36 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 850,
-  "height": 350,
-
-  "title": {
-    "text": "Business Entry and Exit Rates in Australia",
-    "subtitle": "New businesses continued to outnumber exits from 2022–23 to 2025–26",
-    "anchor": "start",
-    "fontSize": 22,
-    "subtitleFontSize": 13,
-    "subtitlePadding": 8
-  },
-
+  "width": "container",
+  "height": 230,
   "data": {
-    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/abs_national_entry_exit_rates.csv"
+    "url": "data/abs_national_entry_exit_rates.csv"
   },
-
   "transform": [
     {
-      "fold": ["entry_rate", "exit_rate"],
-      "as": ["rate_type", "rate"]
+      "fold": [
+        "entry_rate",
+        "exit_rate"
+      ],
+      "as": [
+        "rate_type",
+        "rate"
+      ]
     },
     {
       "calculate": "datum.rate_type === 'entry_rate' ? 'Entry rate' : 'Exit rate'",
       "as": "Rate type"
+    },
+    {
+      "calculate": "datum['Rate type'] + ': ' + format(datum.rate, '.1f') + '%'",
+      "as": "direct_label"
     }
   ],
-
   "layer": [
     {
       "mark": {
         "type": "line",
         "strokeWidth": 3
       },
-
       "encoding": {
         "x": {
           "field": "financial_year",
@@ -47,38 +44,51 @@
           "title": "Financial year",
           "axis": {
             "labelAngle": 0,
-            "labelExpr": "replace(datum.label, '-', '–')"
+            "labelExpr": "slice(datum.label, 0, 4) + '\u2013' + slice(datum.label, -2)"
           }
         },
-
         "y": {
           "field": "rate",
           "type": "quantitative",
           "title": "Rate (%)",
           "scale": {
             "zero": true,
-            "domain": [0, 20]
+            "domain": [
+              0,
+              20
+            ]
           },
           "axis": {
-            "values": [0, 5, 10, 15, 20],
+            "values": [
+              0,
+              5,
+              10,
+              15,
+              20
+            ],
             "labelExpr": "datum.value + '%'"
           }
         },
-
         "color": {
           "field": "Rate type",
           "type": "nominal",
           "title": null,
           "scale": {
-            "domain": ["Entry rate", "Exit rate"],
-            "range": ["#2F6B9A", "#C95A49"]
+            "domain": [
+              "Entry rate",
+              "Exit rate"
+            ],
+            "range": [
+              "#2F6B9A",
+              "#C95A49"
+            ]
           },
           "legend": {
             "orient": "top",
-            "direction": "horizontal"
+            "direction": "horizontal",
+            "title": null
           }
         },
-
         "tooltip": [
           {
             "field": "financial_year",
@@ -99,14 +109,12 @@
         ]
       }
     },
-
     {
       "mark": {
         "type": "point",
         "filled": true,
         "size": 90
       },
-
       "encoding": {
         "x": {
           "field": "financial_year",
@@ -118,26 +126,36 @@
             "2025-26"
           ]
         },
-
         "y": {
           "field": "rate",
           "type": "quantitative",
           "scale": {
             "zero": true,
-            "domain": [0, 20]
+            "domain": [
+              0,
+              20
+            ]
           }
         },
-
         "color": {
           "field": "Rate type",
           "type": "nominal",
           "scale": {
-            "domain": ["Entry rate", "Exit rate"],
-            "range": ["#2F6B9A", "#C95A49"]
+            "domain": [
+              "Entry rate",
+              "Exit rate"
+            ],
+            "range": [
+              "#2F6B9A",
+              "#C95A49"
+            ]
           },
-          "legend": null
+          "legend": {
+            "orient": "top",
+            "direction": "horizontal",
+            "title": null
+          }
         },
-
         "tooltip": [
           {
             "field": "financial_year",
@@ -158,22 +176,20 @@
         ]
       }
     },
-
     {
       "transform": [
         {
           "filter": "datum.financial_year === '2025-26'"
         }
       ],
-
       "mark": {
         "type": "text",
-        "align": "left",
-        "dx": 12,
+        "align": "right",
+        "dx": -8,
         "fontSize": 12,
-        "fontWeight": "bold"
+        "fontWeight": "bold",
+        "dy": -12
       },
-
       "encoding": {
         "x": {
           "field": "financial_year",
@@ -185,40 +201,92 @@
             "2025-26"
           ]
         },
-
         "y": {
           "field": "rate",
           "type": "quantitative",
           "scale": {
             "zero": true,
-            "domain": [0, 20]
+            "domain": [
+              0,
+              20
+            ]
           }
         },
-
         "color": {
           "field": "Rate type",
           "type": "nominal",
           "scale": {
-            "domain": ["Entry rate", "Exit rate"],
-            "range": ["#2F6B9A", "#C95A49"]
+            "domain": [
+              "Entry rate",
+              "Exit rate"
+            ],
+            "range": [
+              "#2F6B9A",
+              "#C95A49"
+            ]
           },
-          "legend": null
+          "legend": {
+            "orient": "top",
+            "direction": "horizontal",
+            "title": null
+          }
         },
-
         "text": {
-          "field": "rate",
-          "type": "quantitative",
-          "format": ".1f"
+          "field": "direct_label"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.financial_year === '2025-26' && datum.rate_type === 'entry_rate'"
+        },
+        {
+          "calculate": "(toNumber(datum.entry_rate) + toNumber(datum.exit_rate)) / 2",
+          "as": "midpoint"
+        },
+        {
+          "calculate": "'Gap: ' + format(datum.entry_rate - datum.exit_rate, '.1f') + ' percentage points'",
+          "as": "gap_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "fontSize": 11,
+        "color": "#526175"
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2022-23",
+            "2023-24",
+            "2024-25",
+            "2025-26"
+          ],
+          "title": "Financial year",
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "slice(datum.label, 0, 4) + '\u2013' + slice(datum.label, -2)"
+          }
+        },
+        "y": {
+          "field": "midpoint",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "gap_label"
         }
       }
     }
   ],
-
   "config": {
     "view": {
       "stroke": null
     },
-
     "axis": {
       "gridColor": "#dddddd",
       "gridOpacity": 0.5,
@@ -226,9 +294,15 @@
       "titleFontSize": 13,
       "titlePadding": 10
     },
-
     "legend": {
       "labelFontSize": 12
-    }
-  }
+    },
+    "font": "Inter",
+    "background": "transparent"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": 8
 }
