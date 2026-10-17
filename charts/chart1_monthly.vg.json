@@ -1,0 +1,128 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 280,
+  "data": {
+    "url": "data/asic_series1_monthly.csv"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "color": "#b45138"
+      },
+      "encoding": {
+        "x": {
+          "field": "month",
+          "type": "temporal",
+          "title": null,
+          "axis": {
+            "format": "%Y",
+            "tickCount": 7,
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "title": "Companies per month",
+          "scale": {
+            "zero": true
+          },
+          "axis": {
+            "format": ",.0f",
+            "tickCount": 5
+          }
+        },
+        "tooltip": [
+          {
+            "field": "month",
+            "type": "temporal",
+            "title": "Month",
+            "format": "%b %Y"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "format": ",.0f"
+          },
+          {
+            "field": "status",
+            "type": "nominal",
+            "title": "Coverage"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 24,
+        "color": "#b45138"
+      },
+      "encoding": {
+        "x": {
+          "field": "month",
+          "type": "temporal",
+          "title": null,
+          "axis": {
+            "format": "%Y",
+            "tickCount": 7,
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "insolvencies",
+          "type": "quantitative",
+          "title": "Companies per month",
+          "scale": {
+            "zero": true
+          },
+          "axis": {
+            "format": ",.0f",
+            "tickCount": 5
+          }
+        },
+        "tooltip": [
+          {
+            "field": "month",
+            "type": "temporal",
+            "title": "Month",
+            "format": "%b %Y"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "format": ",.0f"
+          },
+          {
+            "field": "status",
+            "type": "nominal",
+            "title": "Coverage"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "gridColor": "#dddddd",
+      "gridOpacity": 0.5,
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titlePadding": 10
+    },
+    "font": "Inter",
+    "background": "transparent"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": 8
+}
