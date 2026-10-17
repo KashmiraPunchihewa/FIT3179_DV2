@@ -1,45 +1,61 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 690,
-  "height": 430,
-  "title": {
-    "text": "How Have the Most Affected Industries Changed Rank?",
-    "subtitle": "Annual ranking by number of companies entering external administration",
-    "anchor": "start",
-    "fontSize": 22,
-    "subtitleFontSize": 13,
-    "subtitlePadding": 8
-  },
+  "width": "container",
+  "height": 390,
   "data": {
-    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_series1_industry_year.csv"
+    "url": "data/asic_series1_industry_year.csv"
   },
   "transform": [
-    {"filter": "datum.industry !== 'Unknown'"},
-    {"calculate": "toNumber(datum.insolvencies)", "as": "insolvencies_num"},
     {
-      "window": [{"op": "rank", "as": "annual_rank"}],
-      "sort": [{"field": "insolvencies_num", "order": "descending"}],
-      "groupby": ["financial_year"]
+      "filter": "datum.industry !== 'Unknown'"
     },
     {
-      "filter": {
-        "field": "industry",
-        "oneOf": [
-          "Construction",
-          "Accommodation and Food Services",
-          "Other Services",
-          "Retail Trade",
-          "Professional, Scientific and Technical Services",
-          "Administrative and Support Services",
-          "Transport, Postal and Warehousing",
-          "Manufacturing"
-        ]
-      }
+      "calculate": "toNumber(datum.insolvencies)",
+      "as": "insolvencies_num"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "annual_rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "insolvencies_num",
+          "order": "descending"
+        }
+      ],
+      "groupby": [
+        "financial_year"
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "min",
+          "field": "annual_rank",
+          "as": "best_rank"
+        }
+      ],
+      "groupby": [
+        "industry"
+      ]
+    },
+    {
+      "filter": "datum.best_rank <= 8"
+    },
+    {
+      "calculate": "datum.industry === \"Accommodation and Food Services\" ? \"Accommodation & food\" : datum.industry === \"Administrative and Support Services\" ? \"Administrative support\" : datum.industry === \"Agriculture, Forestry and Fishing\" ? \"Agriculture & fishing\" : datum.industry === \"Arts and Recreation Services\" ? \"Arts & recreation\" : datum.industry === \"Electricity, Gas, Water and Waste Services\" ? \"Utilities & waste\" : datum.industry === \"Financial and Insurance Services\" ? \"Finance & insurance\" : datum.industry === \"Health Care and Social Assistance\" ? \"Health & social care\" : datum.industry === \"Information Media and Telecommunications\" ? \"Media & telecoms\" : datum.industry === \"Professional, Scientific and Technical Services\" ? \"Professional & technical\" : datum.industry === \"Public Administration and Safety\" ? \"Public administration\" : datum.industry === \"Rental, Hiring and Real Estate Services\" ? \"Rental & real estate\" : datum.industry === \"Transport, Postal and Warehousing\" ? \"Transport & warehousing\" : datum.industry",
+      "as": "display_industry"
     }
   ],
   "layer": [
     {
-      "mark": {"type": "line", "strokeWidth": 3},
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
+      },
       "encoding": {
         "x": {
           "field": "financial_year",
@@ -54,7 +70,7 @@
           "title": "Financial year",
           "axis": {
             "labelAngle": 0,
-            "labelExpr": "replace(datum.label, '-', '–')",
+            "labelExpr": "slice(datum.label, 0, 4) + '\u2013' + slice(datum.label, -2)",
             "labelFontSize": 12,
             "titleFontSize": 13,
             "titlePadding": 10
@@ -64,24 +80,51 @@
           "field": "annual_rank",
           "type": "quantitative",
           "title": "Industry rank",
-          "scale": {"reverse": true, "domain": [1, 9]},
+          "scale": {
+            "reverse": true,
+            "domain": [
+              1,
+              12
+            ],
+            "nice": false
+          },
           "axis": {
-            "values": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            "values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
             "labelExpr": "'#' + datum.value",
             "grid": true,
-            "gridColor": "#e5e5e5"
+            "gridColor": "#e5e5e5",
+            "labelOverlap": false
           }
         },
         "color": {
-          "field": "industry",
-          "type": "nominal",
-          "title": null,
-          "scale": {"scheme": "tableau10"},
-          "legend": null
+          "condition": {
+            "test": "datum.industry === focusIndustry",
+            "value": "#0072b2"
+          },
+          "value": "#87929d"
         },
-        "detail": {"field": "industry"},
+        "detail": {
+          "field": "industry"
+        },
         "tooltip": [
-          {"field": "industry", "type": "nominal", "title": "Industry"},
+          {
+            "field": "industry",
+            "type": "nominal",
+            "title": "Industry"
+          },
           {
             "field": "financial_year",
             "type": "ordinal",
@@ -99,7 +142,14 @@
             "title": "Formal insolvencies",
             "format": ",.0f"
           }
-        ]
+        ],
+        "opacity": {
+          "condition": {
+            "test": "focusIndustry === 'All' || datum.industry === focusIndustry",
+            "value": 1
+          },
+          "value": 0.55
+        }
       }
     },
     {
@@ -125,16 +175,48 @@
         "y": {
           "field": "annual_rank",
           "type": "quantitative",
-          "scale": {"reverse": true, "domain": [1, 9]}
+          "scale": {
+            "reverse": true,
+            "domain": [
+              1,
+              12
+            ],
+            "nice": false
+          },
+          "axis": {
+            "values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "labelExpr": "'#' + datum.value",
+            "grid": true,
+            "gridColor": "#e5e5e5",
+            "labelOverlap": false
+          }
         },
         "color": {
-          "field": "industry",
-          "type": "nominal",
-          "scale": {"scheme": "tableau10"},
-          "legend": null
+          "condition": {
+            "test": "datum.industry === focusIndustry",
+            "value": "#0072b2"
+          },
+          "value": "#87929d"
         },
         "tooltip": [
-          {"field": "industry", "type": "nominal", "title": "Industry"},
+          {
+            "field": "industry",
+            "type": "nominal",
+            "title": "Industry"
+          },
           {
             "field": "financial_year",
             "type": "ordinal",
@@ -152,17 +234,29 @@
             "title": "Formal insolvencies",
             "format": ",.0f"
           }
-        ]
+        ],
+        "opacity": {
+          "condition": {
+            "test": "focusIndustry === 'All' || datum.industry === focusIndustry",
+            "value": 1
+          },
+          "value": 0.55
+        }
       }
     },
     {
-      "transform": [{"filter": "datum.financial_year === '2025-2026'"}],
+      "transform": [
+        {
+          "filter": "datum.financial_year === '2025-2026'"
+        }
+      ],
       "mark": {
         "type": "text",
         "align": "left",
         "dx": 10,
-        "fontSize": 11,
-        "fontWeight": "bold"
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "dy": 0
       },
       "encoding": {
         "x": {
@@ -179,25 +273,91 @@
         "y": {
           "field": "annual_rank",
           "type": "quantitative",
-          "scale": {"reverse": true, "domain": [1, 9]}
+          "scale": {
+            "reverse": true,
+            "domain": [
+              1,
+              12
+            ],
+            "nice": false
+          },
+          "axis": {
+            "values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "labelExpr": "'#' + datum.value",
+            "grid": true,
+            "gridColor": "#e5e5e5",
+            "labelOverlap": false
+          }
         },
-        "text": {"field": "industry", "type": "nominal"},
+        "text": {
+          "field": "display_industry"
+        },
         "color": {
-          "field": "industry",
-          "type": "nominal",
-          "scale": {"scheme": "tableau10"},
-          "legend": null
+          "condition": {
+            "test": "datum.industry === focusIndustry",
+            "value": "#0072b2"
+          },
+          "value": "#65717d"
         }
       }
     }
   ],
   "config": {
-    "view": {"stroke": null},
+    "view": {
+      "stroke": null
+    },
     "axis": {
       "domain": false,
       "tickSize": 0,
       "labelFontSize": 12,
       "titleFontSize": 13
+    },
+    "font": "Inter",
+    "background": "transparent"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": {
+    "left": 8,
+    "right": 175,
+    "top": 20,
+    "bottom": 8
+  },
+  "params": [
+    {
+      "name": "focusIndustry",
+      "value": "Construction",
+      "bind": {
+        "input": "select",
+        "name": "Highlight industry: ",
+        "options": [
+          "All",
+          "Accommodation and Food Services",
+          "Administrative and Support Services",
+          "Construction",
+          "Financial and Insurance Services",
+          "Manufacturing",
+          "Other Services",
+          "Professional, Scientific and Technical Services",
+          "Retail Trade",
+          "Transport, Postal and Warehousing"
+        ]
+      }
     }
-  }
+  ]
 }
