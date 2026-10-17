@@ -1,22 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-
-  "width": 760,
-  "height": 360,
-
-  "title": {
-    "text": "New South Wales Recorded the Highest Formal Insolvency Total",
-    "subtitle": "Companies entering external administration for the first time, 2025–26",
-    "fontSize": 20,
-    "subtitleFontSize": 13,
-    "anchor": "start",
-    "offset": 12
-  },
-
+  "width": "container",
+  "height": 280,
   "data": {
-    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_state_insolvencies_2025_26.csv"
+    "url": "data/asic_state_insolvencies_2025_26.csv"
   },
-
   "layer": [
     {
       "mark": {
@@ -24,30 +12,45 @@
         "color": "#377eb8",
         "cornerRadiusEnd": 3
       },
-
       "encoding": {
         "y": {
           "field": "state",
           "type": "nominal",
-          "sort": "-x",
+          "sort": [
+            "New South Wales",
+            "Victoria",
+            "Queensland",
+            "Western Australia",
+            "South Australia",
+            "Australian Capital Territory",
+            "Tasmania",
+            "Northern Territory"
+          ],
           "title": null,
           "axis": {
-            "labelFontSize": 12,
-            "labelLimit": 220,
-            "ticks": false,
-            "domain": false
+            "labelLimit": 180,
+            "labelFontSize": 11
           }
         },
-
         "x": {
           "field": "insolvencies",
           "type": "quantitative",
           "title": "Formal insolvencies",
           "scale": {
-            "domain": [0, 5600]
+            "domain": [
+              0,
+              5600
+            ]
           },
           "axis": {
-            "values": [0, 1000, 2000, 3000, 4000, 5000],
+            "values": [
+              0,
+              1000,
+              2000,
+              3000,
+              4000,
+              5000
+            ],
             "format": ",.0f",
             "labelFontSize": 11,
             "titleFontSize": 12,
@@ -56,7 +59,6 @@
             "tickSize": 4
           }
         },
-
         "tooltip": [
           {
             "field": "state",
@@ -72,7 +74,6 @@
         ]
       }
     },
-
     {
       "mark": {
         "type": "text",
@@ -83,22 +84,35 @@
         "fontWeight": "bold",
         "color": "#374151"
       },
-
       "encoding": {
         "y": {
           "field": "state",
           "type": "nominal",
-          "sort": "-x"
+          "sort": [
+            "New South Wales",
+            "Victoria",
+            "Queensland",
+            "Western Australia",
+            "South Australia",
+            "Australian Capital Territory",
+            "Tasmania",
+            "Northern Territory"
+          ],
+          "axis": {
+            "labelLimit": 180,
+            "labelFontSize": 11
+          }
         },
-
         "x": {
           "field": "insolvencies",
           "type": "quantitative",
           "scale": {
-            "domain": [0, 5600]
+            "domain": [
+              0,
+              5600
+            ]
           }
         },
-
         "text": {
           "field": "insolvencies",
           "type": "quantitative",
@@ -107,22 +121,24 @@
       }
     }
   ],
-
   "config": {
-    "background": "white",
-
+    "background": "transparent",
     "view": {
       "stroke": null
     },
-
     "axis": {
       "labelFont": "Arial",
       "titleFont": "Arial"
     },
-
     "title": {
       "font": "Arial",
       "subtitleFont": "Arial"
-    }
-  }
+    },
+    "font": "Inter"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": 8
 }
