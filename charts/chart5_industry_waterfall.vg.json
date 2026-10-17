@@ -1,235 +1,169 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-
-  "width": 820,
-  "height": 430,
-
-  "padding": {
-    "left": 5,
-    "right": 10,
-    "top": 5,
-    "bottom": 28
-  },
-
-  "title": {
-    "text": "Which Industries Drove the Rise in Formal Insolvencies?",
-    "subtitle": "Contribution to the increase from 2022–23 to 2025–26; 'Other industries' combines all remaining industries",
-    "anchor": "start",
-    "fontSize": 22,
-    "subtitleFontSize": 13,
-    "subtitlePadding": 8
-  },
-
+  "width": "container",
+  "height": 370,
+  "padding": 8,
   "data": {
-    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_series1_industry_year.csv"
+    "url": "data/industry_waterfall.json"
   },
-
-  "transform": [
-    {
-      "filter": "datum.financial_year === '2022-2023' || datum.financial_year === '2025-2026'"
-    },
-
-    {
-      "calculate": "toNumber(datum.insolvencies)",
-      "as": "insolvencies_num"
-    },
-
-    {
-      "pivot": "financial_year",
-      "value": "insolvencies_num",
-      "groupby": ["industry"]
-    },
-
-    {
-      "calculate": "datum['2025-2026'] - datum['2022-2023']",
-      "as": "change"
-    },
-
-    {
-      "window": [
-        {
-          "op": "row_number",
-          "as": "rank"
-        }
-      ],
-      "sort": [
-        {
-          "field": "change",
-          "order": "descending"
-        }
-      ]
-    },
-
-    {
-      "calculate": "datum.rank <= 7 && datum.industry !== 'Unknown' ? datum.industry : 'Other industries'",
-      "as": "category"
-    },
-
-    {
-      "aggregate": [
-        {
-          "op": "sum",
-          "field": "change",
-          "as": "change"
-        },
-        {
-          "op": "sum",
-          "field": "2022-2023",
-          "as": "count_2022"
-        },
-        {
-          "op": "sum",
-          "field": "2025-2026",
-          "as": "count_2025"
-        },
-        {
-          "op": "min",
-          "field": "rank",
-          "as": "sort_order"
-        }
-      ],
-      "groupby": ["category"]
-    },
-
-    {
-      "calculate": "datum.category === 'Accommodation and Food Services' ? 'Accommodation & Food' : datum.category === 'Professional, Scientific and Technical Services' ? 'Professional & Technical' : datum.category === 'Transport, Postal and Warehousing' ? 'Transport & Warehousing' : datum.category === 'Administrative and Support Services' ? 'Administrative Support' : datum.category",
-      "as": "display_category"
-    },
-
-    {
-      "window": [
-        {
-          "op": "sum",
-          "field": "change",
-          "as": "cumulative"
-        }
-      ],
-      "sort": [
-        {
-          "field": "sort_order",
-          "order": "ascending"
-        }
-      ]
-    },
-
-    {
-      "calculate": "datum.cumulative - datum.change",
-      "as": "start_value"
-    },
-
-    {
-      "calculate": "datum.cumulative",
-      "as": "end_value"
-    },
-
-    {
-      "calculate": "datum.change >= 0 ? '+' + format(datum.change, ',.0f') : format(datum.change, ',.0f')",
-      "as": "change_label"
-    }
-  ],
-
   "layer": [
     {
+      "transform": [
+        {
+          "filter": "isValid(datum.next)"
+        }
+      ],
       "mark": {
-        "type": "bar",
-        "size": 55,
-        "color": "#3182bd"
+        "type": "rule",
+        "color": "#9ba5ad",
+        "strokeDash": [
+          3,
+          3
+        ]
       },
-
       "encoding": {
         "x": {
-          "field": "display_category",
-          "type": "nominal",
+          "field": "end",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "display",
+          "type": "ordinal",
           "sort": {
-            "field": "sort_order",
-            "order": "ascending"
+            "field": "order"
           },
           "title": null,
           "axis": {
-            "labelAngle": -28,
-            "labelFontSize": 11,
-            "labelLimit": 170,
-            "labelPadding": 10
+            "labelLimit": 180,
+            "labelFontSize": 11
           }
         },
-
-        "y": {
-          "field": "start_value",
-          "type": "quantitative",
-          "title": "Cumulative change in formal insolvencies",
-          "axis": {
-            "format": ",.0f"
-          }
-        },
-
         "y2": {
-          "field": "end_value"
+          "field": "next"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "size": 22
+      },
+      "encoding": {
+        "y": {
+          "field": "display",
+          "type": "ordinal",
+          "sort": {
+            "field": "order"
+          },
+          "title": null,
+          "axis": {
+            "labelLimit": 180,
+            "labelFontSize": 11
+          }
         },
-
+        "x": {
+          "field": "start",
+          "type": "quantitative",
+          "title": "Companies entering insolvency",
+          "scale": {
+            "domain": [
+              0,
+              16000
+            ]
+          },
+          "axis": {
+            "format": "~s",
+            "tickCount": 5
+          }
+        },
+        "x2": {
+          "field": "end"
+        },
+        "color": {
+          "field": "kind",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Total",
+              "Increase",
+              "Decrease"
+            ],
+            "range": [
+              "#172033",
+              "#287d9a",
+              "#d18130"
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "title": null,
+            "values": [
+              "Total",
+              "Increase"
+            ]
+          }
+        },
         "tooltip": [
           {
             "field": "category",
-            "type": "nominal",
-            "title": "Industry"
+            "title": "Component"
           },
           {
-            "field": "count_2022",
+            "field": "amount",
             "type": "quantitative",
-            "title": "2022–23 insolvencies",
-            "format": ",.0f"
+            "format": ",.0f",
+            "title": "Total / change"
           },
           {
-            "field": "count_2025",
+            "field": "count_start",
             "type": "quantitative",
-            "title": "2025–26 insolvencies",
-            "format": ",.0f"
+            "format": ",.0f",
+            "title": "2022\u201323"
           },
           {
-            "field": "change",
+            "field": "count_end",
             "type": "quantitative",
-            "title": "Change",
-            "format": "+,.0f"
+            "format": ",.0f",
+            "title": "2025\u201326"
           }
         ]
       }
     },
-
     {
       "mark": {
         "type": "text",
-        "dy": -8,
+        "align": "left",
+        "dx": 6,
         "fontSize": 11,
-        "fontWeight": "bold",
-        "color": "#333333"
+        "fontWeight": "bold"
       },
-
       "encoding": {
-        "x": {
-          "field": "display_category",
-          "type": "nominal",
+        "y": {
+          "field": "display",
+          "type": "ordinal",
           "sort": {
-            "field": "sort_order",
-            "order": "ascending"
+            "field": "order"
+          },
+          "title": null,
+          "axis": {
+            "labelLimit": 180,
+            "labelFontSize": 11
           }
         },
-
-        "y": {
-          "field": "end_value",
+        "x": {
+          "field": "end",
           "type": "quantitative"
         },
-
         "text": {
-          "field": "change_label"
+          "field": "label"
         }
       }
     }
   ],
-
   "config": {
     "view": {
       "stroke": null
     },
-
     "axis": {
       "domain": false,
       "tickSize": 0,
@@ -237,6 +171,58 @@
       "labelFontSize": 12,
       "titleFontSize": 13,
       "titlePadding": 10
+    },
+    "font": "Inter",
+    "background": "transparent"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "transform": [
+    {
+      "calculate": "datum.kind === 'Total' ? datum.amount : datum.count_end - datum.count_start",
+      "as": "amount"
+    },
+    {
+      "calculate": "datum.kind === 'Total' && datum.order > 0 ? 0 : datum.amount",
+      "as": "increment"
+    },
+    {
+      "window": [
+        {
+          "op": "sum",
+          "field": "increment",
+          "as": "running_total"
+        },
+        {
+          "op": "lead",
+          "field": "display",
+          "as": "next"
+        }
+      ],
+      "sort": [
+        {
+          "field": "order",
+          "order": "ascending"
+        }
+      ],
+      "frame": [
+        null,
+        0
+      ]
+    },
+    {
+      "calculate": "datum.kind === 'Total' ? 0 : datum.running_total - datum.amount",
+      "as": "start"
+    },
+    {
+      "calculate": "datum.running_total",
+      "as": "end"
+    },
+    {
+      "calculate": "datum.kind === 'Total' ? format(datum.end, ',.0f') : format(datum.amount, '+,.0f')",
+      "as": "label"
     }
-  }
+  ]
 }
