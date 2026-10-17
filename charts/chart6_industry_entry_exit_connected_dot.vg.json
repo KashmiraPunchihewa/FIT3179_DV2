@@ -1,50 +1,91 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 700,
-  "height": 520,
-  "title": {
-    "text": "Which Industries Have the Highest Business Exit Rates?",
-    "subtitle": "Business entry and exit rates across Australian industries in 2025–26",
-    "anchor": "start",
-    "fontSize": 22,
-    "subtitleFontSize": 13,
-    "subtitlePadding": 8
+  "width": "container",
+  "height": {
+    "step": 27
   },
   "data": {
-    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/abs_industry_entry_exit_rates.csv"
+    "url": "data/abs_industry_entry_exit_rates.csv"
   },
   "transform": [
-    {"filter": "datum.financial_year === '2025-26'"},
-    {"calculate": "toNumber(datum.entry_rate)", "as": "entry"},
-    {"calculate": "toNumber(datum.exit_rate)", "as": "exit"}
+    {
+      "filter": "datum.financial_year === '2025-26'"
+    },
+    {
+      "calculate": "toNumber(datum.entry_rate)",
+      "as": "entry"
+    },
+    {
+      "calculate": "toNumber(datum.exit_rate)",
+      "as": "exit"
+    },
+    {
+      "calculate": "datum.industry === \"Accommodation and Food Services\" ? \"Accommodation & food\" : datum.industry === \"Administrative and Support Services\" ? \"Administrative support\" : datum.industry === \"Agriculture, Forestry and Fishing\" ? \"Agriculture & fishing\" : datum.industry === \"Arts and Recreation Services\" ? \"Arts & recreation\" : datum.industry === \"Electricity, Gas, Water and Waste Services\" ? \"Utilities & waste\" : datum.industry === \"Financial and Insurance Services\" ? \"Finance & insurance\" : datum.industry === \"Health Care and Social Assistance\" ? \"Health & social care\" : datum.industry === \"Information Media and Telecommunications\" ? \"Media & telecoms\" : datum.industry === \"Professional, Scientific and Technical Services\" ? \"Professional & technical\" : datum.industry === \"Public Administration and Safety\" ? \"Public administration\" : datum.industry === \"Rental, Hiring and Real Estate Services\" ? \"Rental & real estate\" : datum.industry === \"Transport, Postal and Warehousing\" ? \"Transport & warehousing\" : datum.industry",
+      "as": "display_industry"
+    }
   ],
   "layer": [
     {
-      "mark": {"type": "rule", "strokeWidth": 3, "color": "#cfcfcf"},
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 3,
+        "color": "#cfcfcf"
+      },
       "encoding": {
         "y": {
-          "field": "industry",
+          "field": "display_industry",
           "type": "nominal",
-          "sort": {"field": "exit", "order": "descending"},
+          "sort": {
+            "field": "exit",
+            "order": "descending"
+          },
           "title": null,
-          "axis": {"labelFontSize": 11, "labelLimit": 350, "labelPadding": 6}
+          "axis": {
+            "labelLimit": 180,
+            "labelFontSize": 11
+          }
         },
         "x": {
           "field": "exit",
           "type": "quantitative",
           "title": "Business rate (%)",
-          "scale": {"domain": [0, 30], "zero": true},
+          "scale": {
+            "domain": [
+              0,
+              30
+            ],
+            "zero": true
+          },
           "axis": {
-            "values": [0, 5, 10, 15, 20, 25, 30],
+            "values": [
+              0,
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
             "labelExpr": "datum.value + '%'"
           }
         },
-        "x2": {"field": "entry"}
+        "x2": {
+          "field": "entry"
+        }
       }
     },
     {
       "transform": [
-        {"fold": ["entry", "exit"], "as": ["rate_type", "rate"]},
+        {
+          "fold": [
+            "entry",
+            "exit"
+          ],
+          "as": [
+            "rate_type",
+            "rate"
+          ]
+        },
         {
           "calculate": "datum.rate_type === 'entry' ? 'Entry rate' : 'Exit rate'",
           "as": "Rate type"
@@ -59,22 +100,41 @@
       },
       "encoding": {
         "y": {
-          "field": "industry",
+          "field": "display_industry",
           "type": "nominal",
-          "sort": {"field": "exit", "order": "descending"}
+          "sort": {
+            "field": "exit",
+            "order": "descending"
+          },
+          "axis": {
+            "labelLimit": 180,
+            "labelFontSize": 11
+          }
         },
         "x": {
           "field": "rate",
           "type": "quantitative",
-          "scale": {"domain": [0, 30], "zero": true}
+          "scale": {
+            "domain": [
+              0,
+              30
+            ],
+            "zero": true
+          }
         },
         "color": {
           "field": "Rate type",
           "type": "nominal",
           "title": null,
           "scale": {
-            "domain": ["Entry rate", "Exit rate"],
-            "range": ["#2F6B9A", "#C95A49"]
+            "domain": [
+              "Entry rate",
+              "Exit rate"
+            ],
+            "range": [
+              "#2F6B9A",
+              "#C95A49"
+            ]
           },
           "legend": {
             "orient": "top",
@@ -83,46 +143,96 @@
           }
         },
         "tooltip": [
-          {"field": "industry", "type": "nominal", "title": "Industry"},
-          {"field": "Rate type", "type": "nominal", "title": "Measure"},
+          {
+            "field": "industry",
+            "type": "nominal",
+            "title": "Industry"
+          },
+          {
+            "field": "Rate type",
+            "type": "nominal",
+            "title": "Measure"
+          },
           {
             "field": "rate",
             "type": "quantitative",
             "title": "Rate (%)",
             "format": ".1f"
           }
-        ]
+        ],
+        "shape": {
+          "field": "Rate type",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Entry rate",
+              "Exit rate"
+            ],
+            "range": [
+              "circle",
+              "cross"
+            ]
+          },
+          "legend": {
+            "orient": "top",
+            "direction": "horizontal",
+            "title": null
+          }
+        }
       }
     },
     {
       "transform": [
-        {"filter": "datum.industry === 'Transport, Postal and Warehousing'"}
+        {
+          "filter": "datum.industry === 'Transport, Postal and Warehousing'"
+        },
+        {
+          "calculate": "format(datum.exit, '.1f') + '% exit'",
+          "as": "label"
+        }
       ],
       "mark": {
         "type": "text",
         "align": "left",
-        "dx": 10,
+        "dx": 0,
         "fontSize": 11,
         "fontWeight": "bold",
-        "color": "#C95A49"
+        "color": "#C95A49",
+        "dy": -12
       },
       "encoding": {
         "y": {
-          "field": "industry",
+          "field": "display_industry",
           "type": "nominal",
-          "sort": {"field": "exit", "order": "descending"}
+          "sort": {
+            "field": "exit",
+            "order": "descending"
+          },
+          "axis": {
+            "labelLimit": 180,
+            "labelFontSize": 11
+          }
         },
         "x": {
           "field": "exit",
           "type": "quantitative",
-          "scale": {"domain": [0, 30]}
+          "scale": {
+            "domain": [
+              0,
+              30
+            ]
+          }
         },
-        "text": {"value": "21.7% exit"}
+        "text": {
+          "field": "label"
+        }
       }
     }
   ],
   "config": {
-    "view": {"stroke": null},
+    "view": {
+      "stroke": null
+    },
     "axis": {
       "domain": false,
       "tickSize": 0,
@@ -131,6 +241,16 @@
       "titleFontSize": 13,
       "titlePadding": 10
     },
-    "legend": {"symbolType": "circle", "symbolSize": 100}
-  }
+    "legend": {
+      "symbolType": "circle",
+      "symbolSize": 100
+    },
+    "font": "Inter",
+    "background": "transparent"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": 8
 }
