@@ -1,114 +1,174 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-
-  "width": 760,
-  "height": 520,
-
-  "title": {
-    "text": "Where Did the Most Formal Insolvencies Occur in 2025–26?",
-    "subtitle": "Circle area represents companies entering external administration for the first time",
-    "fontSize": 20,
-    "subtitleFontSize": 13,
-    "anchor": "start",
-    "offset": 10
-  },
-
+  "width": "container",
+  "height": 410,
   "projection": {
-  "type": "mercator",
-  "center": [134, -28],
-  "scale": 850
+    "type": "equalEarth",
+    "rotate": [
+      -134,
+      0,
+      0
+    ]
   },
-
-  "layer": [
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/australia_states.geojson",
-        "format": {
-          "type": "json",
-          "property": "features"
-        }
-      },
-
-      "mark": {
-        "type": "geoshape",
-        "filled": false,
-        "stroke": "#8795a1",
-        "strokeWidth": 1.3
-      }
-    },
-
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_state_insolvencies_2025_26.csv"
-      },
-
-      "mark": {
-        "type": "point",
-        "filled": true,
-        "color": "#377eb8",
-        "opacity": 0.82,
-        "stroke": "white",
-        "strokeWidth": 1.5
-      },
-
-      "encoding": {
-        "longitude": {
-          "field": "longitude",
-          "type": "quantitative"
-        },
-
-        "latitude": {
-          "field": "latitude",
-          "type": "quantitative"
-        },
-
-        "size": {
-          "field": "insolvencies",
-          "type": "quantitative",
-          "title": "Formal insolvencies",
-          "scale": {
-            "domain": [0, 5500],
-            "range": [80, 2800]
-          },
-          "legend": {
-            "values": [100, 1000, 2500, 5000],
-            "format": ",.0f"
-          }
-        },
-
-        "tooltip": [
-          {
-            "field": "state",
-            "type": "nominal",
-            "title": "State / Territory"
-          },
-          {
-            "field": "insolvencies",
-            "type": "quantitative",
-            "title": "Formal insolvencies",
-            "format": ",.0f"
-          }
-        ]
-      }
-    }
-  ],
-
   "config": {
-    "background": "white",
-
+    "background": "transparent",
     "view": {
       "stroke": null
     },
-
     "legend": {
       "labelFontSize": 12,
       "titleFontSize": 12,
       "titleFontWeight": "bold"
     },
-
     "title": {
       "font": "Arial",
       "subtitleFont": "Arial"
+    },
+    "font": "Inter"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": 8,
+  "layer": [
+    {
+      "data": {
+        "url": "data/australia_states_abs2021.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "states"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.properties.state_code_2021 !== 'Z'"
+        },
+        {
+          "lookup": "properties.state_name_2021",
+          "from": {
+            "data": {
+              "url": "data/state_insolvency_comparison.csv"
+            },
+            "key": "state",
+            "fields": [
+              "insolvencies",
+              "operating_start",
+              "per_10000_businesses"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.insolvencies / datum.operating_start * 10000",
+          "as": "per_10000_businesses"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 1.3
+      },
+      "encoding": {
+        "color": {
+          "field": "per_10000_businesses",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              75
+            ],
+            "scheme": "blues"
+          },
+          "title": "Per 10,000 businesses",
+          "legend": {
+            "orient": "bottom",
+            "gradientLength": 230,
+            "titleLimit": 280
+          }
+        },
+        "tooltip": [
+          {
+            "field": "properties.state_name_2021",
+            "title": "State / territory"
+          },
+          {
+            "field": "per_10000_businesses",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Per 10,000 businesses"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "format": ",.0f",
+            "title": "Insolvencies"
+          },
+          {
+            "field": "operating_start",
+            "type": "quantitative",
+            "format": ",.0f",
+            "title": "ABS businesses at 1 July 2025"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/state_insolvency_comparison.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum.insolvencies / datum.operating_start * 10000",
+          "as": "per_10000_businesses"
+        },
+        {
+          "calculate": "datum.state === 'New South Wales' ? 'NSW' : datum.state === 'Victoria' ? 'VIC' : datum.state === 'Queensland' ? 'QLD' : datum.state === 'South Australia' ? 'SA' : datum.state === 'Western Australia' ? 'WA' : datum.state === 'Tasmania' ? 'TAS' : datum.state === 'Northern Territory' ? 'NT' : 'ACT'",
+          "as": "abbr"
+        },
+        {
+          "filter": "datum.abbr !== 'ACT'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "abbr"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.per_10000_businesses > 45",
+            "value": "white"
+          },
+          "value": "#172033"
+        },
+        "tooltip": [
+          {
+            "field": "state"
+          },
+          {
+            "field": "per_10000_businesses",
+            "format": ".1f",
+            "title": "Per 10,000 businesses"
+          }
+        ]
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent"
     }
   }
 }
