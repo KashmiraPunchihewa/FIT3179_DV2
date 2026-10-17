@@ -1,30 +1,61 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 720,
-  "height": 520,
-  "title": {
-    "text": "Which Industries Recorded the Most Formal Insolvencies?",
-    "subtitle": "Construction consistently recorded the highest number of companies entering external administration",
-    "anchor": "start",
-    "fontSize": 22,
-    "subtitleFontSize": 13,
-    "subtitlePadding": 8
+  "width": "container",
+  "height": {
+    "step": 29
   },
   "data": {
-    "url": "https://raw.githubusercontent.com/KashmiraPunchihewa/FIT3179_DV2/main/data/asic_series1_industry_year.csv"
+    "url": "data/asic_series1_industry_year.csv"
   },
   "transform": [
-    {"filter": "datum.industry !== 'Unknown'"},
+    {
+      "filter": "datum.industry !== 'Unknown'"
+    },
+    {
+      "calculate": "datum.industry === \"Accommodation and Food Services\" ? \"Accommodation & food\" : datum.industry === \"Administrative and Support Services\" ? \"Administrative support\" : datum.industry === \"Agriculture, Forestry and Fishing\" ? \"Agriculture & fishing\" : datum.industry === \"Arts and Recreation Services\" ? \"Arts & recreation\" : datum.industry === \"Electricity, Gas, Water and Waste Services\" ? \"Utilities & waste\" : datum.industry === \"Financial and Insurance Services\" ? \"Finance & insurance\" : datum.industry === \"Health Care and Social Assistance\" ? \"Health & social care\" : datum.industry === \"Information Media and Telecommunications\" ? \"Media & telecoms\" : datum.industry === \"Professional, Scientific and Technical Services\" ? \"Professional & technical\" : datum.industry === \"Public Administration and Safety\" ? \"Public administration\" : datum.industry === \"Rental, Hiring and Real Estate Services\" ? \"Rental & real estate\" : datum.industry === \"Transport, Postal and Warehousing\" ? \"Transport & warehousing\" : datum.industry",
+      "as": "display_industry"
+    },
+    {
+      "calculate": "datum.financial_year === '2025-2026' ? toNumber(datum.insolvencies) : 0",
+      "as": "latest"
+    },
     {
       "joinaggregate": [
-        {"op": "sum", "field": "insolvencies", "as": "industry_total"}
+        {
+          "op": "max",
+          "field": "latest",
+          "as": "latest_count"
+        }
       ],
-      "groupby": ["industry"]
+      "groupby": [
+        "industry"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "latest_rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "latest_count",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "industryCoverage === 'All industries' || datum.latest_rank <= 10"
     }
   ],
   "layer": [
     {
-      "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1},
+      "mark": {
+        "type": "rect",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
       "encoding": {
         "x": {
           "field": "financial_year",
@@ -39,50 +70,50 @@
           "title": "Financial year",
           "axis": {
             "labelAngle": 0,
-            "labelExpr": "replace(datum.label, '-', '–')",
+            "labelExpr": "slice(datum.label, 0, 4) + '\u2013' + slice(datum.label, -2)",
             "labelFontSize": 12,
             "titleFontSize": 13,
             "titlePadding": 10
           }
         },
         "y": {
-          "field": "industry",
+          "field": "display_industry",
           "type": "nominal",
           "title": null,
           "sort": {
-            "field": "industry_total",
+            "field": "latest_count",
             "op": "max",
             "order": "descending"
           },
-          "axis": {"labelFontSize": 11, "labelLimit": 360, "labelPadding": 6}
+          "axis": {
+            "labelFontSize": 11,
+            "labelLimit": 180
+          }
         },
         "color": {
           "field": "insolvencies",
           "type": "quantitative",
           "title": "Formal insolvencies",
           "scale": {
-            "type": "threshold",
-            "domain": [250, 500, 1000, 1500, 2500],
-            "range": [
-              "#deebf7",
-              "#c6dbef",
-              "#9ecae1",
-              "#6baed6",
-              "#3182bd",
-              "#08519c"
-            ]
+            "domain": [
+              0,
+              3600
+            ],
+            "scheme": "blues"
           },
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
-            "columns": 6,
-            "titleFontSize": 12,
-            "labelFontSize": 11,
-            "titlePadding": 8
+            "gradientLength": 220,
+            "format": ",.0f"
           }
         },
         "tooltip": [
-          {"field": "industry", "type": "nominal", "title": "Industry"},
+          {
+            "field": "industry",
+            "type": "nominal",
+            "title": "Industry"
+          },
           {
             "field": "financial_year",
             "type": "ordinal",
@@ -98,16 +129,10 @@
       }
     },
     {
-      "transform": [
-        {
-          "filter": "datum.financial_year === '2025-2026' && datum.insolvencies >= 1500"
-        }
-      ],
       "mark": {
         "type": "text",
-        "fontSize": 12,
-        "fontWeight": "bold",
-        "color": "white"
+        "fontSize": 11,
+        "fontWeight": "bold"
       },
       "encoding": {
         "x": {
@@ -122,25 +147,64 @@
           ]
         },
         "y": {
-          "field": "industry",
+          "field": "display_industry",
           "type": "nominal",
           "sort": {
-            "field": "industry_total",
+            "field": "latest_count",
             "op": "max",
             "order": "descending"
+          },
+          "axis": {
+            "labelFontSize": 11,
+            "labelLimit": 180
           }
         },
         "text": {
           "field": "insolvencies",
           "type": "quantitative",
           "format": ",.0f"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.insolvencies >= 1800",
+            "value": "white"
+          },
+          "value": "#172033"
         }
       }
     }
   ],
   "config": {
-    "view": {"stroke": null},
-    "axis": {"domain": false, "tickSize": 0},
-    "legend": {"labelLimit": 160}
-  }
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "tickSize": 0
+    },
+    "legend": {
+      "labelLimit": 160
+    },
+    "font": "Inter",
+    "background": "transparent"
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": 8,
+  "params": [
+    {
+      "name": "industryCoverage",
+      "value": "Top 10",
+      "bind": {
+        "input": "select",
+        "options": [
+          "Top 10",
+          "All industries"
+        ],
+        "name": "Industries shown: "
+      }
+    }
+  ]
 }
