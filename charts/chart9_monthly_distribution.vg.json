@@ -1,0 +1,89 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 320,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "config": {
+    "font": "Inter",
+    "background": "transparent",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "tickSize": 0,
+      "gridColor": "#e5e5e5",
+      "labelFontSize": 11,
+      "titlePadding": 12
+    }
+  },
+  "data": {
+    "url": "data/asic_series1_monthly.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.financial_year >= '2021-2022' && datum.financial_year <= '2025-2026'"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "financial_year",
+      "type": "ordinal",
+      "title": "Financial year",
+      "axis": {
+        "labelAngle": 0,
+        "labelExpr": "slice(datum.label,0,4) + '\u2013' + slice(datum.label,7,9)"
+      }
+    },
+    "y": {
+      "field": "insolvencies",
+      "type": "quantitative",
+      "title": "Companies per month",
+      "scale": {
+        "zero": true
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "boxplot",
+        "extent": "min-max",
+        "size": 32,
+        "color": "#287d9a",
+        "median": {
+          "color": "#172033"
+        },
+        "outliers": false
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "color": "#172033",
+        "opacity": 0.45,
+        "size": 27
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "month",
+            "type": "temporal",
+            "title": "Month",
+            "format": "%b %Y"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "format": ",.0f",
+            "title": "Companies"
+          }
+        ]
+      }
+    }
+  ]
+}
