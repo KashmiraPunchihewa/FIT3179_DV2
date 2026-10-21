@@ -115,15 +115,13 @@
             "title": "Total / change"
           },
           {
-            "field": "count_start",
-            "type": "quantitative",
-            "format": ",.0f",
+            "field": "count_start_label",
+            "type": "nominal",
             "title": "2022\u201323"
           },
           {
-            "field": "count_end",
-            "type": "quantitative",
-            "format": ",.0f",
+            "field": "count_end_label",
+            "type": "nominal",
             "title": "2025\u201326"
           }
         ]
@@ -223,6 +221,14 @@
     {
       "calculate": "datum.kind === 'Total' ? format(datum.end, ',.0f') : format(datum.amount, '+,.0f')",
       "as": "label"
+    },
+    {
+      "calculate": "isValid(datum.count_start) ? format(datum.count_start, ',.0f') : '\u2014'",
+      "as": "count_start_label"
+    },
+    {
+      "calculate": "isValid(datum.count_end) ? format(datum.count_end, ',.0f') : '\u2014'",
+      "as": "count_end_label"
     }
   ]
 }
