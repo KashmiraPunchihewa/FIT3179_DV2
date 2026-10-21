@@ -1,0 +1,174 @@
+[
+  {
+    "id": "root",
+    "parent": null
+  },
+  {
+    "id": "Increase",
+    "parent": "root"
+  },
+  {
+    "id": "Decrease",
+    "parent": "root"
+  },
+  {
+    "id": "Accommodation and Food Services",
+    "parent": "Decrease",
+    "value": 398,
+    "change": -398,
+    "previous": 2476,
+    "latest": 2078
+  },
+  {
+    "id": "Administrative and Support Services",
+    "parent": "Decrease",
+    "value": 54,
+    "change": -54,
+    "previous": 799,
+    "latest": 745
+  },
+  {
+    "id": "Agriculture, Forestry and Fishing",
+    "parent": "Increase",
+    "value": 10,
+    "change": 10,
+    "previous": 174,
+    "latest": 184
+  },
+  {
+    "id": "Arts and Recreation Services",
+    "parent": "Increase",
+    "value": 19,
+    "change": 19,
+    "previous": 262,
+    "latest": 281
+  },
+  {
+    "id": "Construction",
+    "parent": "Decrease",
+    "value": 124,
+    "change": -124,
+    "previous": 3596,
+    "latest": 3472
+  },
+  {
+    "id": "Education and Training",
+    "parent": "Decrease",
+    "value": 23,
+    "change": -23,
+    "previous": 164,
+    "latest": 141
+  },
+  {
+    "id": "Electricity, Gas, Water and Waste Services",
+    "parent": "Decrease",
+    "value": 12,
+    "change": -12,
+    "previous": 171,
+    "latest": 159
+  },
+  {
+    "id": "Financial and Insurance Services",
+    "parent": "Decrease",
+    "value": 5,
+    "change": -5,
+    "previous": 438,
+    "latest": 433
+  },
+  {
+    "id": "Health Care and Social Assistance",
+    "parent": "Decrease",
+    "value": 17,
+    "change": -17,
+    "previous": 481,
+    "latest": 464
+  },
+  {
+    "id": "Information Media and Telecommunications",
+    "parent": "Decrease",
+    "value": 69,
+    "change": -69,
+    "previous": 332,
+    "latest": 263
+  },
+  {
+    "id": "Manufacturing",
+    "parent": "Increase",
+    "value": 31,
+    "change": 31,
+    "previous": 636,
+    "latest": 667
+  },
+  {
+    "id": "Mining",
+    "parent": "Increase",
+    "value": 49,
+    "change": 49,
+    "previous": 144,
+    "latest": 193
+  },
+  {
+    "id": "Other Services",
+    "parent": "Decrease",
+    "value": 122,
+    "change": -122,
+    "previous": 1506,
+    "latest": 1384
+  },
+  {
+    "id": "Professional, Scientific and Technical Services",
+    "parent": "Decrease",
+    "value": 17,
+    "change": -17,
+    "previous": 1010,
+    "latest": 993
+  },
+  {
+    "id": "Public Administration and Safety",
+    "parent": "Decrease",
+    "value": 6,
+    "change": -6,
+    "previous": 70,
+    "latest": 64
+  },
+  {
+    "id": "Rental, Hiring and Real Estate Services",
+    "parent": "Decrease",
+    "value": 40,
+    "change": -40,
+    "previous": 567,
+    "latest": 527
+  },
+  {
+    "id": "Retail Trade",
+    "parent": "Increase",
+    "value": 135,
+    "change": 135,
+    "previous": 871,
+    "latest": 1006
+  },
+  {
+    "id": "Transport, Postal and Warehousing",
+    "parent": "Increase",
+    "value": 79,
+    "change": 79,
+    "previous": 734,
+    "latest": 813
+  },
+  {
+    "id": "Unknown",
+    "parent": "Increase",
+    "value": 7,
+    "change": 7,
+    "previous": 29,
+    "latest": 36
+  },
+  {
+    "id": "Wholesale Trade",
+    "parent": "Decrease",
+    "value": 12,
+    "change": -12,
+    "previous": 262,
+    "latest": 250
+  }
+]
