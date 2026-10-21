@@ -1,0 +1,156 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 420,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "config": {
+    "font": "Inter",
+    "background": "transparent",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "tickSize": 0,
+      "gridColor": "#e5e5e5",
+      "labelFontSize": 11,
+      "titlePadding": 12
+    }
+  },
+  "projection": {
+    "type": "equalEarth",
+    "rotate": [
+      -134,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/australia_states_abs2021.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "states"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#eef1f3",
+        "stroke": "white",
+        "strokeWidth": 1.5
+      }
+    },
+    {
+      "data": {
+        "url": "data/state_change.json"
+      },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.8,
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "magnitude",
+          "type": "quantitative",
+          "title": "Absolute change",
+          "scale": {
+            "domain": [
+              0,
+              325
+            ],
+            "range": [
+              0,
+              2400
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "values": [
+              25,
+              100,
+              325
+            ]
+          }
+        },
+        "color": {
+          "field": "direction",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Increase",
+              "Decrease"
+            ],
+            "range": [
+              "#287d9a",
+              "#d18130"
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "title": null
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "title": "State / territory"
+          },
+          {
+            "field": "previous",
+            "title": "2024\u201325",
+            "format": ","
+          },
+          {
+            "field": "insolvencies",
+            "title": "2025\u201326",
+            "format": ","
+          },
+          {
+            "field": "change",
+            "title": "Change",
+            "format": "+,"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/state_change.json"
+      },
+      "mark": {
+        "type": "text",
+        "dy": -28,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#172033"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "abbr"
+        }
+      }
+    }
+  ]
+}
