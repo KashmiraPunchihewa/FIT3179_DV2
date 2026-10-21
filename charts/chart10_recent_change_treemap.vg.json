@@ -1,0 +1,172 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "width": 800,
+  "height": 360,
+  "padding": 8,
+  "autosize": "pad",
+  "background": "transparent",
+  "data": [
+    {
+      "name": "tree",
+      "url": "data/industry_recent_change.json",
+      "transform": [
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "treemap",
+          "field": "value",
+          "sort": {
+            "field": "value",
+            "order": "descending"
+          },
+          "method": "squarify",
+          "ratio": 1.4,
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ],
+          "paddingInner": 2,
+          "paddingOuter": 0
+        }
+      ]
+    },
+    {
+      "name": "leaves",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.depth === 2"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "colour",
+      "type": "ordinal",
+      "domain": [
+        "Increase",
+        "Decrease"
+      ],
+      "range": [
+        "#287d9a",
+        "#d18130"
+      ]
+    }
+  ],
+  "legends": [
+    {
+      "fill": "colour",
+      "orient": "bottom",
+      "title": "Change in insolvency counts",
+      "titleLimit": 280,
+      "direction": "horizontal"
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "scale": "colour",
+            "field": "parent"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "tooltip": {
+            "signal": "{'Industry':datum.id,'2024\u201325':datum.previous,'2025\u201326':datum.latest,'Change':format(datum.change,'+,')}"
+          }
+        },
+        "hover": {
+          "fillOpacity": {
+            "value": 0.75
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "signal": "datum.x0+7"
+          },
+          "y": {
+            "signal": "datum.y0+17"
+          },
+          "text": {
+            "field": "id"
+          },
+          "limit": {
+            "signal": "max(0,datum.x1-datum.x0-14)"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fill": {
+            "value": "white"
+          },
+          "opacity": {
+            "signal": "datum.x1-datum.x0 > 85 && datum.y1-datum.y0 > 40 ? 1 : 0"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "signal": "datum.x0+7"
+          },
+          "y": {
+            "signal": "datum.y0+34"
+          },
+          "text": {
+            "signal": "format(datum.change,'+,')"
+          },
+          "fontWeight": {
+            "value": "bold"
+          },
+          "fill": {
+            "value": "white"
+          },
+          "opacity": {
+            "signal": "datum.x1-datum.x0 > 45 && datum.y1-datum.y0 > 40 ? 1 : 0"
+          }
+        }
+      }
+    }
+  ]
+}
