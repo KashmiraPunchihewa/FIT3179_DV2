@@ -1,0 +1,122 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "width": 600,
+  "height": 430,
+  "padding": 10,
+  "autosize": "pad",
+  "background": "transparent",
+  "signals": [
+    {
+      "name": "unit",
+      "update": "min(width,height) * 0.88"
+    },
+    {
+      "name": "offset",
+      "update": "(width-unit)/2"
+    }
+  ],
+  "data": [
+    {
+      "name": "states",
+      "url": "data/state_cartogram.json"
+    }
+  ],
+  "scales": [
+    {
+      "name": "colour",
+      "type": "linear",
+      "domain": [
+        0,
+        75
+      ],
+      "range": {
+        "scheme": "blues"
+      }
+    }
+  ],
+  "legends": [
+    {
+      "fill": "colour",
+      "title": "Insolvencies per 10,000 businesses",
+      "orient": "bottom",
+      "gradientLength": 220,
+      "direction": "horizontal",
+      "titleLimit": 320
+    }
+  ],
+  "marks": [
+    {
+      "type": "symbol",
+      "from": {
+        "data": "states"
+      },
+      "encode": {
+        "enter": {
+          "shape": {
+            "value": "circle"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 2
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "offset + datum.cx * unit"
+          },
+          "y": {
+            "signal": "datum.cy * unit"
+          },
+          "size": {
+            "signal": "4 * pow(datum.radius * unit,2)"
+          },
+          "fill": {
+            "scale": "colour",
+            "field": "per_10000_businesses"
+          },
+          "tooltip": {
+            "signal": "{'State / territory':datum.state,'Businesses (1 July 2025)':format(datum.operating_start,','),'Per 10,000 businesses':format(datum.per_10000_businesses,'.1f')}"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "states"
+      },
+      "encode": {
+        "enter": {
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "middle"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fontWeight": {
+            "value": "bold"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "offset + datum.cx * unit"
+          },
+          "y": {
+            "signal": "datum.cy * unit + (datum.operating_start < 50000 ? -datum.radius*unit-10 : 0)"
+          },
+          "text": {
+            "field": "abbr"
+          },
+          "fill": {
+            "signal": "datum.operating_start < 50000 ? '#172033' : (datum.per_10000_businesses > 45 ? 'white' : '#172033')"
+          }
+        }
+      }
+    }
+  ]
+}
