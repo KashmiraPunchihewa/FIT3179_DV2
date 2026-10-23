@@ -1,161 +1,26 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 370,
-  "padding": 8,
+  "height": 300,
+  "padding": 10,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
   "data": {
     "url": "data/industry_waterfall.json"
   },
-  "layer": [
+  "transform": [
     {
-      "transform": [
-        {
-          "filter": "isValid(datum.next)"
-        }
-      ],
-      "mark": {
-        "type": "rule",
-        "color": "#9ba5ad",
-        "strokeDash": [
-          3,
-          3
-        ]
-      },
-      "encoding": {
-        "x": {
-          "field": "end",
-          "type": "quantitative"
-        },
-        "y": {
-          "field": "display",
-          "type": "ordinal",
-          "sort": {
-            "field": "order"
-          },
-          "title": null,
-          "axis": {
-            "labelLimit": 180,
-            "labelFontSize": 11
-          }
-        },
-        "y2": {
-          "field": "next"
-        }
-      }
+      "filter": "datum.kind !== 'Total'"
     },
     {
-      "mark": {
-        "type": "bar",
-        "size": 22
-      },
-      "encoding": {
-        "y": {
-          "field": "display",
-          "type": "ordinal",
-          "sort": {
-            "field": "order"
-          },
-          "title": null,
-          "axis": {
-            "labelLimit": 180,
-            "labelFontSize": 11
-          }
-        },
-        "x": {
-          "field": "start",
-          "type": "quantitative",
-          "title": "Companies entering insolvency",
-          "scale": {
-            "domain": [
-              0,
-              16000
-            ]
-          },
-          "axis": {
-            "format": "~s",
-            "tickCount": 5
-          }
-        },
-        "x2": {
-          "field": "end"
-        },
-        "color": {
-          "field": "kind",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Total",
-              "Increase",
-              "Decrease"
-            ],
-            "range": [
-              "#172033",
-              "#287d9a",
-              "#d18130"
-            ]
-          },
-          "legend": {
-            "orient": "bottom",
-            "title": null,
-            "values": [
-              "Total",
-              "Increase"
-            ]
-          }
-        },
-        "tooltip": [
-          {
-            "field": "category",
-            "title": "Component"
-          },
-          {
-            "field": "amount",
-            "type": "quantitative",
-            "format": ",.0f",
-            "title": "Total / change"
-          },
-          {
-            "field": "count_start_label",
-            "type": "nominal",
-            "title": "2022\u201323"
-          },
-          {
-            "field": "count_end_label",
-            "type": "nominal",
-            "title": "2025\u201326"
-          }
-        ]
-      }
+      "calculate": "datum.count_end - datum.count_start",
+      "as": "amount"
     },
     {
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "dx": 6,
-        "fontSize": 11,
-        "fontWeight": "bold"
-      },
-      "encoding": {
-        "y": {
-          "field": "display",
-          "type": "ordinal",
-          "sort": {
-            "field": "order"
-          },
-          "title": null,
-          "axis": {
-            "labelLimit": 180,
-            "labelFontSize": 11
-          }
-        },
-        "x": {
-          "field": "end",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "label"
-        }
-      }
+      "calculate": "datum.amount / 6211",
+      "as": "share"
     }
   ],
   "config": {
@@ -168,67 +33,152 @@
       "gridColor": "#e5e5e5",
       "labelFontSize": 12,
       "titleFontSize": 13,
-      "titlePadding": 10
+      "titlePadding": 16,
+      "labelPadding": 9
     },
     "font": "Inter",
     "background": "transparent"
   },
-  "autosize": {
-    "type": "fit-x",
-    "contains": "padding"
-  },
-  "transform": [
+  "layer": [
     {
-      "calculate": "datum.kind === 'Total' ? datum.amount : datum.count_end - datum.count_start",
-      "as": "amount"
-    },
-    {
-      "calculate": "datum.kind === 'Total' && datum.order > 0 ? 0 : datum.amount",
-      "as": "increment"
-    },
-    {
-      "window": [
-        {
-          "op": "sum",
-          "field": "increment",
-          "as": "running_total"
+      "mark": {
+        "type": "bar",
+        "size": 23
+      },
+      "encoding": {
+        "x": {
+          "field": "amount",
+          "type": "quantitative",
+          "title": "Additional companies \u00b7 2025\u201326 minus 2022\u201323",
+          "scale": {
+            "domain": [
+              0,
+              1700
+            ]
+          },
+          "axis": {
+            "format": ",d",
+            "tickCount": 5
+          }
         },
-        {
-          "op": "lead",
+        "y": {
           "field": "display",
-          "as": "next"
-        }
-      ],
-      "sort": [
-        {
-          "field": "order",
-          "order": "ascending"
-        }
-      ],
-      "frame": [
-        null,
-        0
-      ]
+          "type": "nominal",
+          "sort": {
+            "field": "amount",
+            "order": "descending"
+          },
+          "title": null,
+          "axis": {
+            "labelLimit": 190,
+            "labelPadding": 10,
+            "labelFontSize": 11
+          }
+        },
+        "color": {
+          "condition": {
+            "test": "datum.category === 'All remaining industries'",
+            "value": "#8895a0"
+          },
+          "value": "#287d9a"
+        },
+        "tooltip": [
+          {
+            "field": "category",
+            "title": "Industry / group"
+          },
+          {
+            "field": "count_start",
+            "title": "2022\u201323",
+            "format": ",d"
+          },
+          {
+            "field": "count_end",
+            "title": "2025\u201326",
+            "format": ",d"
+          },
+          {
+            "field": "amount",
+            "title": "Additional companies",
+            "format": "+,"
+          },
+          {
+            "field": "share",
+            "title": "Share of national increase",
+            "format": ".1%"
+          }
+        ]
+      }
     },
     {
-      "calculate": "datum.kind === 'Total' ? 0 : datum.running_total - datum.amount",
-      "as": "start"
-    },
-    {
-      "calculate": "datum.running_total",
-      "as": "end"
-    },
-    {
-      "calculate": "datum.kind === 'Total' ? format(datum.end, ',.0f') : format(datum.amount, '+,.0f')",
-      "as": "label"
-    },
-    {
-      "calculate": "isValid(datum.count_start) ? format(datum.count_start, ',.0f') : '\u2014'",
-      "as": "count_start_label"
-    },
-    {
-      "calculate": "isValid(datum.count_end) ? format(datum.count_end, ',.0f') : '\u2014'",
-      "as": "count_end_label"
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 6,
+        "fontWeight": "bold",
+        "fontSize": 11
+      },
+      "encoding": {
+        "x": {
+          "field": "amount",
+          "type": "quantitative",
+          "title": "Additional companies \u00b7 2025\u201326 minus 2022\u201323",
+          "scale": {
+            "domain": [
+              0,
+              1700
+            ]
+          },
+          "axis": {
+            "format": ",d",
+            "tickCount": 5
+          }
+        },
+        "y": {
+          "field": "display",
+          "type": "nominal",
+          "sort": {
+            "field": "amount",
+            "order": "descending"
+          },
+          "title": null,
+          "axis": {
+            "labelLimit": 190,
+            "labelPadding": 10,
+            "labelFontSize": 11
+          }
+        },
+        "text": {
+          "field": "amount",
+          "format": "+,"
+        },
+        "tooltip": [
+          {
+            "field": "category",
+            "title": "Industry / group"
+          },
+          {
+            "field": "count_start",
+            "title": "2022\u201323",
+            "format": ",d"
+          },
+          {
+            "field": "count_end",
+            "title": "2025\u201326",
+            "format": ",d"
+          },
+          {
+            "field": "amount",
+            "title": "Additional companies",
+            "format": "+,"
+          },
+          {
+            "field": "share",
+            "title": "Share of national increase",
+            "format": ".1%"
+          }
+        ]
+      }
     }
   ]
 }
