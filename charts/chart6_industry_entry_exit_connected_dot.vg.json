@@ -22,27 +22,32 @@
     {
       "calculate": "datum.industry === \"Accommodation and Food Services\" ? \"Accommodation & food\" : datum.industry === \"Administrative and Support Services\" ? \"Administrative support\" : datum.industry === \"Agriculture, Forestry and Fishing\" ? \"Agriculture & fishing\" : datum.industry === \"Arts and Recreation Services\" ? \"Arts & recreation\" : datum.industry === \"Electricity, Gas, Water and Waste Services\" ? \"Utilities & waste\" : datum.industry === \"Financial and Insurance Services\" ? \"Finance & insurance\" : datum.industry === \"Health Care and Social Assistance\" ? \"Health & social care\" : datum.industry === \"Information Media and Telecommunications\" ? \"Media & telecoms\" : datum.industry === \"Professional, Scientific and Technical Services\" ? \"Professional & technical\" : datum.industry === \"Public Administration and Safety\" ? \"Public administration\" : datum.industry === \"Rental, Hiring and Real Estate Services\" ? \"Rental & real estate\" : datum.industry === \"Transport, Postal and Warehousing\" ? \"Transport & warehousing\" : datum.industry",
       "as": "display_industry"
+    },
+    {
+      "calculate": "round((datum.entry-datum.exit)*10)/10",
+      "as": "gap"
     }
   ],
   "layer": [
     {
       "mark": {
         "type": "rule",
-        "strokeWidth": 3,
-        "color": "#cfcfcf"
+        "strokeWidth": 5,
+        "color": "#8a99a6"
       },
       "encoding": {
         "y": {
           "field": "display_industry",
           "type": "nominal",
           "sort": {
-            "field": "exit",
+            "field": "gap",
             "order": "descending"
           },
           "title": null,
           "axis": {
             "labelLimit": 180,
-            "labelFontSize": 11
+            "labelFontSize": 11,
+            "labelPadding": 10
           }
         },
         "x": {
@@ -52,7 +57,7 @@
           "scale": {
             "domain": [
               0,
-              30
+              37
             ],
             "zero": true
           },
@@ -71,7 +76,28 @@
         },
         "x2": {
           "field": "entry"
-        }
+        },
+        "tooltip": [
+          {
+            "field": "industry",
+            "title": "Industry"
+          },
+          {
+            "field": "entry",
+            "title": "Entry rate (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "exit",
+            "title": "Exit rate (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "gap",
+            "title": "Entry minus exit (percentage points)",
+            "format": "+.1f"
+          }
+        ]
       }
     },
     {
@@ -103,12 +129,13 @@
           "field": "display_industry",
           "type": "nominal",
           "sort": {
-            "field": "exit",
+            "field": "gap",
             "order": "descending"
           },
           "axis": {
             "labelLimit": 180,
-            "labelFontSize": 11
+            "labelFontSize": 11,
+            "labelPadding": 10
           }
         },
         "x": {
@@ -117,7 +144,7 @@
           "scale": {
             "domain": [
               0,
-              30
+              37
             ],
             "zero": true
           }
@@ -145,19 +172,22 @@
         "tooltip": [
           {
             "field": "industry",
-            "type": "nominal",
             "title": "Industry"
           },
           {
-            "field": "Rate type",
-            "type": "nominal",
-            "title": "Measure"
+            "field": "entry",
+            "title": "Entry rate (%)",
+            "format": ".1f"
           },
           {
-            "field": "rate",
-            "type": "quantitative",
-            "title": "Rate (%)",
+            "field": "exit",
+            "title": "Exit rate (%)",
             "format": ".1f"
+          },
+          {
+            "field": "gap",
+            "title": "Entry minus exit (percentage points)",
+            "format": "+.1f"
           }
         ],
         "shape": {
@@ -184,48 +214,67 @@
     {
       "transform": [
         {
-          "filter": "datum.industry === 'Transport, Postal and Warehousing'"
-        },
-        {
-          "calculate": "format(datum.exit, '.1f') + '% exit'",
+          "calculate": "format(datum.gap,'+.1f') + ' pp'",
           "as": "label"
         }
       ],
       "mark": {
         "type": "text",
-        "align": "left",
+        "align": "right",
         "dx": 0,
         "fontSize": 11,
         "fontWeight": "bold",
-        "color": "#C95A49",
-        "dy": -12
+        "color": "#172033",
+        "dy": 0
       },
       "encoding": {
         "y": {
           "field": "display_industry",
           "type": "nominal",
           "sort": {
-            "field": "exit",
+            "field": "gap",
             "order": "descending"
           },
           "axis": {
             "labelLimit": 180,
-            "labelFontSize": 11
+            "labelFontSize": 11,
+            "labelPadding": 10
           }
         },
         "x": {
-          "field": "exit",
+          "datum": 33,
           "type": "quantitative",
           "scale": {
             "domain": [
               0,
-              30
+              37
             ]
           }
         },
         "text": {
           "field": "label"
-        }
+        },
+        "tooltip": [
+          {
+            "field": "industry",
+            "title": "Industry"
+          },
+          {
+            "field": "entry",
+            "title": "Entry rate (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "exit",
+            "title": "Exit rate (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "gap",
+            "title": "Entry minus exit (percentage points)",
+            "format": "+.1f"
+          }
+        ]
       }
     }
   ],
@@ -239,7 +288,7 @@
       "gridColor": "#e5e5e5",
       "labelFontSize": 12,
       "titleFontSize": 13,
-      "titlePadding": 10
+      "titlePadding": 16
     },
     "legend": {
       "symbolType": "circle",
