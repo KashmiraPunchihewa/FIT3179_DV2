@@ -465,9 +465,9 @@ select {
 
 
 .chart-note {
-  max-width: 900px;
+  max-width: 56ch;
 
-  margin: 17px auto 0;
+  margin: 17px 0 0;
 
   color: var(--ink-soft);
 
@@ -924,4 +924,14 @@ caption {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Short reading lines keep supporting text easy to scan. */
+.chart-subtitle, .chart-help, .chart-transition, .section-heading > p, .hero-description, .source-list p, .definition-box p, .insight-callout p, .story-bridge p { max-width: 56ch; }
+
+
+/* Keep long tooltip values within a phone viewport. */
+@media (max-width: 640px) {
+  #vg-tooltip-element { left: auto !important; right: 12px; max-width: calc(100vw - 24px); }
+  #vg-tooltip-element td.value { max-width: 160px; white-space: normal; overflow-wrap: anywhere; }
 }
