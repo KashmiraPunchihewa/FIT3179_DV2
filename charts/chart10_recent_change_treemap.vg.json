@@ -8,7 +8,7 @@
   "data": [
     {
       "name": "tree",
-      "url": "data/industry_recent_change.json",
+      "url": "data/industry_composition.json",
       "transform": [
         {
           "type": "stratify",
@@ -43,32 +43,34 @@
       "transform": [
         {
           "type": "filter",
-          "expr": "datum.depth === 2"
+          "expr": "datum.depth === 1"
         }
       ]
     }
   ],
   "scales": [
     {
-      "name": "colour",
-      "type": "ordinal",
+      "name": "shareColour",
+      "type": "linear",
       "domain": [
-        "Increase",
-        "Decrease"
+        0,
+        0.25
       ],
-      "range": [
-        "#287d9a",
-        "#d18130"
-      ]
+      "range": {
+        "scheme": "blues"
+      },
+      "zero": true
     }
   ],
   "legends": [
     {
-      "fill": "colour",
+      "fill": "shareColour",
+      "title": "Share of national insolvencies (%)",
+      "format": ".0%",
       "orient": "bottom",
-      "title": "Change in insolvency counts",
-      "titleLimit": 280,
-      "direction": "horizontal"
+      "direction": "horizontal",
+      "gradientLength": 220,
+      "titleLimit": 310
     }
   ],
   "marks": [
@@ -92,19 +94,17 @@
             "field": "y1"
           },
           "fill": {
-            "scale": "colour",
-            "field": "parent"
+            "scale": "shareColour",
+            "field": "share"
           },
           "stroke": {
             "value": "white"
           },
           "tooltip": {
-            "signal": "{'Industry':datum.id,'2024\u201325':datum.previous,'2025\u201326':datum.latest,'Change':format(datum.change,'+,')}"
-          }
-        },
-        "hover": {
+            "signal": "{'Industry':datum.id,'2025\u201326 insolvencies':format(datum.value,','),'Share of national total':format(datum.share,'.1%')}"
+          },
           "fillOpacity": {
-            "value": 0.75
+            "value": 1
           }
         }
       }
@@ -132,10 +132,13 @@
             "value": 12
           },
           "fill": {
-            "value": "white"
+            "signal": "datum.share >= 0.13 ? 'white' : '#172033'"
           },
           "opacity": {
             "signal": "datum.x1-datum.x0 > 85 && datum.y1-datum.y0 > 40 ? 1 : 0"
+          },
+          "tooltip": {
+            "signal": "{'Industry':datum.id,'2025\u201326 insolvencies':format(datum.value,','),'Share of national total':format(datum.share,'.1%')}"
           }
         }
       }
@@ -154,16 +157,19 @@
             "signal": "datum.y0+34"
           },
           "text": {
-            "signal": "format(datum.change,'+,')"
+            "signal": "format(datum.share,'.1%') + ' \u00b7 ' + format(datum.value,',')"
           },
           "fontWeight": {
             "value": "bold"
           },
           "fill": {
-            "value": "white"
+            "signal": "datum.share >= 0.13 ? 'white' : '#172033'"
           },
           "opacity": {
-            "signal": "datum.x1-datum.x0 > 45 && datum.y1-datum.y0 > 40 ? 1 : 0"
+            "signal": "datum.x1-datum.x0 > 100 && datum.y1-datum.y0 > 40 ? 1 : 0"
+          },
+          "tooltip": {
+            "signal": "{'Industry':datum.id,'2025\u201326 insolvencies':format(datum.value,','),'Share of national total':format(datum.share,'.1%')}"
           }
         }
       }
