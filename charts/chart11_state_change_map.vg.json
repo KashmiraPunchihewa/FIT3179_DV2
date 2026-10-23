@@ -64,45 +64,30 @@
           "type": "quantitative"
         },
         "size": {
-          "field": "magnitude",
+          "field": "insolvencies",
           "type": "quantitative",
-          "title": "Absolute change",
+          "title": "Companies",
           "scale": {
             "domain": [
               0,
-              325
+              5400
             ],
             "range": [
               0,
-              2400
+              2300
             ]
           },
           "legend": {
             "orient": "bottom",
             "values": [
-              25,
               100,
-              325
+              1000,
+              5000
             ]
           }
         },
         "color": {
-          "field": "direction",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Increase",
-              "Decrease"
-            ],
-            "range": [
-              "#287d9a",
-              "#d18130"
-            ]
-          },
-          "legend": {
-            "orient": "bottom",
-            "title": null
-          }
+          "value": "#287d9a"
         },
         "tooltip": [
           {
@@ -110,19 +95,9 @@
             "title": "State / territory"
           },
           {
-            "field": "previous",
-            "title": "2024\u201325",
-            "format": ","
-          },
-          {
             "field": "insolvencies",
-            "title": "2025\u201326",
+            "title": "2025\u201326 insolvencies",
             "format": ","
-          },
-          {
-            "field": "change",
-            "title": "Change",
-            "format": "+,"
           }
         ]
       }
@@ -149,7 +124,18 @@
         },
         "text": {
           "field": "abbr"
-        }
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "title": "State / territory"
+          },
+          {
+            "field": "insolvencies",
+            "title": "2025\u201326 insolvencies",
+            "format": ","
+          }
+        ]
       }
     }
   ]
