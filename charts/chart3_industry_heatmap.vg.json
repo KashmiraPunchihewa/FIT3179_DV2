@@ -170,7 +170,25 @@
             "value": "white"
           },
           "value": "#172033"
-        }
+        },
+        "tooltip": [
+          {
+            "field": "industry",
+            "type": "nominal",
+            "title": "Industry"
+          },
+          {
+            "field": "financial_year",
+            "type": "ordinal",
+            "title": "Financial year"
+          },
+          {
+            "field": "insolvencies",
+            "type": "quantitative",
+            "title": "Formal insolvencies",
+            "format": ",.0f"
+          }
+        ]
       }
     }
   ],
@@ -180,7 +198,9 @@
     },
     "axis": {
       "domain": false,
-      "tickSize": 0
+      "tickSize": 0,
+      "labelPadding": 10,
+      "titlePadding": 18
     },
     "legend": {
       "labelLimit": 160
