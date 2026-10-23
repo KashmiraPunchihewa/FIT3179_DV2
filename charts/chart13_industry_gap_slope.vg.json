@@ -1,0 +1,152 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 330,
+  "padding": 12,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "background": "transparent",
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 14,
+      "labelPadding": 8,
+      "domain": false,
+      "gridColor": "#e5e5e5"
+    }
+  },
+  "data": {
+    "url": "data/abs_industry_entry_exit_rates.csv"
+  },
+  "transform": [
+    {
+      "filter": "indexof(['2022-23','2025-26'],datum.financial_year)>=0 && indexof([\"Information Media and Telecommunications\", \"Manufacturing\", \"Health Care and Social Assistance\"],datum.industry)>=0"
+    },
+    {
+      "calculate": "round((datum.entry_rate - datum.exit_rate)*10)/10",
+      "as": "gap"
+    },
+    {
+      "calculate": "[\"Information & media\", \"Manufacturing\", \"Health & social care\"][indexof([\"Information Media and Telecommunications\", \"Manufacturing\", \"Health Care and Social Assistance\"],datum.industry)]",
+      "as": "short"
+    },
+    {
+      "calculate": "replace(datum.financial_year, '-', '\u2013')",
+      "as": "year_label"
+    },
+    {
+      "calculate": "format(datum.gap,'.1f') + ' pp'",
+      "as": "gap_label"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year_label",
+      "type": "ordinal",
+      "sort": [
+        "2022\u201323",
+        "2025\u201326"
+      ],
+      "title": null,
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "gap",
+      "type": "quantitative",
+      "title": "Entry rate minus exit rate (percentage points)",
+      "scale": {
+        "domain": [
+          0,
+          8
+        ]
+      }
+    },
+    "color": {
+      "field": "short",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Information & media",
+          "Manufacturing",
+          "Health & social care"
+        ],
+        "range": [
+          "#287d9a",
+          "#c95a49",
+          "#79629a"
+        ]
+      },
+      "legend": {
+        "title": null,
+        "orient": "top",
+        "direction": "vertical"
+      }
+    },
+    "detail": {
+      "field": "industry"
+    },
+    "tooltip": [
+      {
+        "field": "industry",
+        "title": "Industry"
+      },
+      {
+        "field": "financial_year",
+        "title": "Financial year"
+      },
+      {
+        "field": "entry_rate",
+        "title": "Entry rate (%)",
+        "format": ".1f"
+      },
+      {
+        "field": "exit_rate",
+        "title": "Exit rate (%)",
+        "format": ".1f"
+      },
+      {
+        "field": "gap",
+        "title": "Gap (percentage points)",
+        "format": ".1f"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "point": {
+          "filled": true,
+          "size": 75
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": 0,
+        "fontWeight": "bold",
+        "dx": {
+          "expr": "datum.financial_year === '2022-23' ? -8 : 8"
+        },
+        "align": {
+          "expr": "datum.financial_year === '2022-23' ? 'right' : 'left'"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "gap_label"
+        }
+      }
+    }
+  ]
+}
