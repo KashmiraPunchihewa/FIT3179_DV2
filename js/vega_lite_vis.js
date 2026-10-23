@@ -5,7 +5,8 @@ const chartFiles = [
   'chart5_industry_waterfall.vg.json', 'chart6_industry_entry_exit_connected_dot.vg.json',
   'chart7_state_symbols.vg.json', 'chart8_state_ranking.vg.json',
   'chart9_monthly_distribution.vg.json', 'chart10_recent_change_treemap.vg.json',
-  'chart11_state_change_map.vg.json', 'chart12_business_cartogram.vg.json'
+  'chart11_state_change_map.vg.json', 'chart12_business_cartogram.vg.json',
+  'chart13_industry_gap_slope.vg.json'
 ];
 const chartViews = new Map();
 const generations = new Map();
@@ -20,12 +21,28 @@ function fitChartToScreen(spec, number, el) {
         Object.values(value).forEach(adapt);
       }
       adapt(spec);
-      if (number === 7) spec.height = 300;
-      if (number === 5) {
-        spec.layer[1].encoding.x.scale.domain = [0, 20000];
-        spec.layer[1].encoding.x.title = 'Companies';
+      if (number === 1) {
+        spec.layer.forEach(layer => {
+          if (layer.encoding?.x) {
+            layer.encoding.x.axis = {...layer.encoding.x.axis, labelAngle: -45};
+          }
+        });
       }
-      if (number === 8) spec.layer.forEach(layer => layer.encoding.x.scale.domain = [0, 8000]);
+      if (number === 7) spec.height = 300;
+      if (number === 13) spec.encoding.y.title = 'Entry–exit gap (pp)';
+      if (number === 9) {
+        spec.encoding.x.title = null;
+        spec.layer[1].mark.size = 30;
+        spec.layer[2].mark.fontSize = 9;
+        spec.layer[2].encoding.text = {field:'amount', type:'quantitative', format:'.3s'};
+      }
+      if (number === 5) {
+        spec.layer.forEach(layer => {
+          layer.encoding.x.title = 'Additional companies';
+          layer.encoding.x.scale.domain = [0, 2100];
+          layer.encoding.x.axis = {format: ',d', values: [0, 750, 1500]};
+        });
+      }
       if (number === 4) {
         spec.padding = 8;
         spec.layer = spec.layer.filter(layer => layer.mark.type !== 'text');
@@ -36,12 +53,13 @@ function fitChartToScreen(spec, number, el) {
         spec.layer[0].encoding.x.axis.labelAngle = -45;
         spec.layer[0].encoding.color.legend.gradientLength = Math.max(100, el.clientWidth - 145);
         if (el.clientWidth < 290) {
-          spec.layer[1].mark.fontSize = 9;
+          spec.layer[2].mark.fontSize = 9;
           spec.layer[1].encoding.text.format = '.0f';
         }
       }
       if (number === 6) {
-        spec.layer[2].mark.align = 'right';
+        spec.layer.forEach(layer => { layer.encoding.x.scale.domain = [0, 50]; });
+        spec.layer[2].mark.align = 'left';
         spec.layer[1].encoding.color.legend = {orient:'top',direction:'vertical',columns:1,title:null};
         spec.layer[1].encoding.shape.legend = {orient:'top',direction:'vertical',columns:1,title:null};
       }
@@ -65,7 +83,8 @@ async function renderChart(number, file) {
       spec.width = Math.max(220, el.clientWidth - 32);
       spec.height = number === 12 ? Math.min(490, spec.width * 0.9) : (spec.width < 520 ? 440 : 360);
     }
-    if (number === 9 && el.clientWidth < 520) spec.encoding.x.axis.labelAngle = -45;
+
+
     if (number === 11 && el.clientWidth < 520) {
       spec.height = 320;
       spec.layer[1].encoding.size.scale.range = [0, 850];
