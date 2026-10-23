@@ -1,144 +1,168 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 280,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "padding": 10,
+  "config": {
+    "font": "Inter",
+    "background": "transparent",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "tickSize": 0,
+      "labelPadding": 9,
+      "titlePadding": 16,
+      "gridColor": "#e5e5e5"
+    }
+  },
+  "height": 300,
   "data": {
-    "url": "data/asic_state_insolvencies_2025_26.csv"
+    "url": "data/state_change.json"
   },
   "layer": [
     {
       "mark": {
         "type": "bar",
-        "color": "#377eb8",
-        "cornerRadiusEnd": 3
+        "size": 20
       },
       "encoding": {
-        "y": {
-          "field": "state",
-          "type": "nominal",
-          "sort": [
-            "New South Wales",
-            "Victoria",
-            "Queensland",
-            "Western Australia",
-            "South Australia",
-            "Australian Capital Territory",
-            "Tasmania",
-            "Northern Territory"
-          ],
-          "title": null,
-          "axis": {
-            "labelLimit": 180,
-            "labelFontSize": 11
-          }
-        },
         "x": {
-          "field": "insolvencies",
+          "field": "change",
           "type": "quantitative",
-          "title": "Formal insolvencies",
+          "title": "Change in companies \u00b7 2024\u201325 to 2025\u201326",
           "scale": {
             "domain": [
-              0,
-              5600
+              -400,
+              90
             ]
           },
           "axis": {
-            "values": [
-              0,
-              1000,
-              2000,
-              3000,
-              4000,
-              5000
-            ],
-            "format": ",.0f",
-            "labelFontSize": 11,
-            "titleFontSize": 12,
-            "grid": true,
-            "gridOpacity": 0.2,
-            "tickSize": 4
+            "format": "+d",
+            "tickCount": 5
           }
+        },
+        "y": {
+          "field": "abbr",
+          "type": "nominal",
+          "sort": {
+            "field": "change",
+            "order": "ascending"
+          },
+          "title": null
+        },
+        "color": {
+          "condition": {
+            "test": "datum.change < 0",
+            "value": "#d18130"
+          },
+          "value": "#287d9a"
         },
         "tooltip": [
           {
             "field": "state",
-            "type": "nominal",
-            "title": "State / Territory"
+            "title": "State / territory"
+          },
+          {
+            "field": "previous",
+            "title": "2024\u201325",
+            "format": ","
           },
           {
             "field": "insolvencies",
-            "type": "quantitative",
-            "title": "Formal insolvencies",
-            "format": ",.0f"
+            "title": "2025\u201326",
+            "format": ","
+          },
+          {
+            "field": "change",
+            "title": "Change",
+            "format": "+,"
           }
         ]
       }
     },
     {
       "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "dx": 6,
-        "fontSize": 12,
-        "fontWeight": "bold",
-        "color": "#374151"
+        "type": "rule",
+        "color": "#172033"
       },
       "encoding": {
-        "y": {
-          "field": "state",
-          "type": "nominal",
-          "sort": [
-            "New South Wales",
-            "Victoria",
-            "Queensland",
-            "Western Australia",
-            "South Australia",
-            "Australian Capital Territory",
-            "Tasmania",
-            "Northern Territory"
-          ],
-          "axis": {
-            "labelLimit": 180,
-            "labelFontSize": 11
-          }
-        },
         "x": {
-          "field": "insolvencies",
+          "datum": 0
+        }
+      },
+      "data": {
+        "values": [
+          {}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": {
+          "expr": "datum.change < 0 ? 'right' : 'left'"
+        },
+        "dx": {
+          "expr": "datum.change < 0 ? -6 : 6"
+        },
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {
+          "field": "change",
           "type": "quantitative",
+          "title": "Change in companies \u00b7 2024\u201325 to 2025\u201326",
           "scale": {
             "domain": [
-              0,
-              5600
+              -400,
+              90
             ]
+          },
+          "axis": {
+            "format": "+d",
+            "tickCount": 5
           }
         },
+        "y": {
+          "field": "abbr",
+          "type": "nominal",
+          "sort": {
+            "field": "change",
+            "order": "ascending"
+          },
+          "title": null
+        },
         "text": {
-          "field": "insolvencies",
-          "type": "quantitative",
-          "format": ",.0f"
-        }
+          "field": "change",
+          "format": "+,"
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "title": "State / territory"
+          },
+          {
+            "field": "previous",
+            "title": "2024\u201325",
+            "format": ","
+          },
+          {
+            "field": "insolvencies",
+            "title": "2025\u201326",
+            "format": ","
+          },
+          {
+            "field": "change",
+            "title": "Change",
+            "format": "+,"
+          }
+        ]
       }
     }
-  ],
-  "config": {
-    "background": "transparent",
-    "view": {
-      "stroke": null
-    },
-    "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
-    },
-    "title": {
-      "font": "Arial",
-      "subtitleFont": "Arial"
-    },
-    "font": "Inter"
-  },
-  "autosize": {
-    "type": "fit-x",
-    "contains": "padding"
-  },
-  "padding": 8
+  ]
 }
