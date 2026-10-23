@@ -1,0 +1,126 @@
+[
+  {
+    "id": "All industries",
+    "parent": null
+  },
+  {
+    "id": "Accommodation and Food Services",
+    "parent": "All industries",
+    "value": 2078,
+    "share": 0.14682399491273934
+  },
+  {
+    "id": "Administrative and Support Services",
+    "parent": "All industries",
+    "value": 745,
+    "share": 0.05263901646294072
+  },
+  {
+    "id": "Agriculture, Forestry and Fishing",
+    "parent": "All industries",
+    "value": 184,
+    "share": 0.013000777220377305
+  },
+  {
+    "id": "Arts and Recreation Services",
+    "parent": "All industries",
+    "value": 281,
+    "share": 0.019854447820250122
+  },
+  {
+    "id": "Construction",
+    "parent": "All industries",
+    "value": 3472,
+    "share": 0.2453190136366848
+  },
+  {
+    "id": "Education and Training",
+    "parent": "All industries",
+    "value": 141,
+    "share": 0.009962552109093479
+  },
+  {
+    "id": "Electricity, Gas, Water and Waste Services",
+    "parent": "All industries",
+    "value": 159,
+    "share": 0.011234367271956475
+  },
+  {
+    "id": "Financial and Insurance Services",
+    "parent": "All industries",
+    "value": 433,
+    "share": 0.030594220306648767
+  },
+  {
+    "id": "Health Care and Social Assistance",
+    "parent": "All industries",
+    "value": 464,
+    "share": 0.032784568642690595
+  },
+  {
+    "id": "Information Media and Telecommunications",
+    "parent": "All industries",
+    "value": 263,
+    "share": 0.018582632657387126
+  },
+  {
+    "id": "Manufacturing",
+    "parent": "All industries",
+    "value": 667,
+    "share": 0.04712781742386773
+  },
+  {
+    "id": "Mining",
+    "parent": "All industries",
+    "value": 193,
+    "share": 0.013636684801808803
+  },
+  {
+    "id": "Other Services",
+    "parent": "All industries",
+    "value": 1384,
+    "share": 0.09778845474457712
+  },
+  {
+    "id": "Professional, Scientific and Technical Services",
+    "parent": "All industries",
+    "value": 993,
+    "share": 0.07016180315127535
+  },
+  {
+    "id": "Public Administration and Safety",
+    "parent": "All industries",
+    "value": 64,
+    "share": 0.0045220094679573235
+  },
+  {
+    "id": "Rental, Hiring and Real Estate Services",
+    "parent": "All industries",
+    "value": 527,
+    "share": 0.03723592171271108
+  },
+  {
+    "id": "Retail Trade",
+    "parent": "All industries",
+    "value": 1006,
+    "share": 0.07108033632445418
+  },
+  {
+    "id": "Transport, Postal and Warehousing",
+    "parent": "All industries",
+    "value": 813,
+    "share": 0.05744365152264538
+  },
+  {
+    "id": "Unknown",
+    "parent": "All industries",
+    "value": 36,
+    "share": 0.0025436303257259946
+  },
+  {
+    "id": "Wholesale Trade",
+    "parent": "All industries",
+    "value": 250,
+    "share": 0.017664099484208294
+  }
+]
