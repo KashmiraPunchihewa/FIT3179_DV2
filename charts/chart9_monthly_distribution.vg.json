@@ -2,87 +2,207 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
   "height": 320,
+  "padding": 12,
   "autosize": {
     "type": "fit-x",
     "contains": "padding"
   },
   "config": {
-    "font": "Inter",
-    "background": "transparent",
     "view": {
       "stroke": null
     },
+    "background": "transparent",
     "axis": {
-      "domain": false,
-      "tickSize": 0,
-      "gridColor": "#e5e5e5",
       "labelFontSize": 11,
-      "titlePadding": 12
+      "titleFontSize": 12,
+      "titlePadding": 14,
+      "labelPadding": 8,
+      "domain": false,
+      "gridColor": "#e5e5e5"
     }
   },
   "data": {
-    "url": "data/asic_series1_monthly.csv"
+    "url": "data/abs_national_entry_exit_rates.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "operating_start": "number",
+        "entries_total": "number",
+        "exits_total": "number",
+        "operating_end": "number"
+      }
+    }
   },
   "transform": [
     {
-      "filter": "datum.financial_year >= '2021-2022' && datum.financial_year <= '2025-2026'"
+      "filter": "datum.financial_year === '2025-26'"
+    },
+    {
+      "fold": [
+        "operating_start",
+        "entries_total",
+        "exits_total",
+        "operating_end"
+      ],
+      "as": [
+        "key",
+        "value"
+      ]
+    },
+    {
+      "calculate": "indexof(['operating_start','entries_total','exits_total','operating_end'],datum.key)",
+      "as": "order"
+    },
+    {
+      "calculate": "['Start','Entries','Exits','End'][datum.order]",
+      "as": "label"
+    },
+    {
+      "calculate": "datum.order === 2 ? -datum.value : datum.value",
+      "as": "amount"
+    },
+    {
+      "calculate": "datum.order === 0 || datum.order === 3 ? 0 : datum.order === 1 ? datum.operating_start : datum.operating_end",
+      "as": "low"
+    },
+    {
+      "calculate": "datum.order === 0 ? datum.operating_start : datum.order === 3 ? datum.operating_end : datum.operating_start + datum.entries_total",
+      "as": "high"
+    },
+    {
+      "calculate": "datum.order === 0 || datum.order === 3 ? 'Total' : datum.order === 1 ? 'Entry' : 'Exit'",
+      "as": "kind"
+    },
+    {
+      "calculate": "(datum.order === 1 ? '+' : '') + format(datum.amount, ',d')",
+      "as": "valueLabel"
+    },
+    {
+      "calculate": "['Entries','Exits','End',null][datum.order]",
+      "as": "next"
+    },
+    {
+      "calculate": "datum.order === 0 ? datum.operating_start : datum.order === 1 ? datum.operating_start + datum.entries_total : datum.operating_end",
+      "as": "after"
     }
   ],
   "encoding": {
     "x": {
-      "field": "financial_year",
+      "field": "label",
       "type": "ordinal",
-      "title": "Financial year",
+      "sort": [
+        "Start",
+        "Entries",
+        "Exits",
+        "End"
+      ],
+      "title": "Start + entries \u2212 exits = end",
       "axis": {
-        "labelAngle": 0,
-        "labelExpr": "slice(datum.label,0,4) + '\u2013' + slice(datum.label,7,9)"
+        "labelAngle": 0
       }
     },
-    "y": {
-      "field": "insolvencies",
-      "type": "quantitative",
-      "title": "Companies per month",
-      "scale": {
-        "zero": true
+    "tooltip": [
+      {
+        "field": "label",
+        "title": "Step"
+      },
+      {
+        "field": "amount",
+        "title": "Businesses",
+        "format": ",d"
       }
-    }
+    ]
   },
   "layer": [
     {
+      "transform": [
+        {
+          "filter": "datum.order < 3"
+        }
+      ],
       "mark": {
-        "type": "boxplot",
-        "extent": "min-max",
-        "size": 32,
-        "color": "#287d9a",
-        "median": {
-          "color": "#172033"
+        "type": "rule",
+        "strokeDash": [
+          3,
+          3
+        ],
+        "color": "#9ba5ad"
+      },
+      "encoding": {
+        "x2": {
+          "field": "next"
         },
-        "outliers": false
+        "y": {
+          "field": "after",
+          "type": "quantitative",
+          "title": "Businesses"
+        }
       }
     },
     {
       "mark": {
-        "type": "point",
-        "filled": true,
-        "color": "#172033",
-        "opacity": 0.45,
-        "size": 27
+        "type": "bar",
+        "size": 45
       },
       "encoding": {
-        "tooltip": [
-          {
-            "field": "month",
-            "type": "temporal",
-            "title": "Month",
-            "format": "%b %Y"
+        "y": {
+          "field": "low",
+          "type": "quantitative",
+          "title": "Businesses",
+          "scale": {
+            "domain": [
+              0,
+              3500000
+            ],
+            "nice": false
           },
-          {
-            "field": "insolvencies",
-            "type": "quantitative",
-            "format": ",.0f",
-            "title": "Companies"
+          "axis": {
+            "format": ".2s",
+            "values": [
+              0,
+              1000000,
+              2000000,
+              3000000
+            ]
           }
-        ]
+        },
+        "y2": {
+          "field": "high"
+        },
+        "color": {
+          "field": "kind",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Total",
+              "Entry",
+              "Exit"
+            ],
+            "range": [
+              "#172033",
+              "#287d9a",
+              "#c95a49"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -10,
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "y": {
+          "field": "high",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "valueLabel"
+        }
       }
     }
   ]
