@@ -108,7 +108,7 @@ document.getElementById('trend-view').addEventListener('change', event => {
   const monthly = event.target.value === 'monthly';
   renderChart(1, monthly ? 'chart1_monthly.vg.json' : chartFiles[0]);
   document.getElementById('trend-context').textContent = monthly
-    ? 'Monthly counts, July 2019–August 2026. July–August 2026 are provisional; September is excluded because the release covers only part of that month. Not seasonally adjusted.'
+    ? 'Monthly counts, July 2019–September 2026. July–September 2026 are provisional; October is excluded because the release covers only part of that month. Not seasonally adjusted.'
     : 'Five complete financial years. Select monthly detail to inspect shorter fluctuations.';
 });
 let resizeTimer;
